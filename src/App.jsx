@@ -7,7 +7,8 @@ import Library from './screens/Library.jsx';
 import CategoryDetail from './screens/CategoryDetail.jsx';
 import RitualBreath from './screens/RitualBreath.jsx';
 import RitualStretch from './screens/RitualStretch.jsx';
-import Placeholder from './components/Placeholder.jsx';
+import Progress from './screens/Progress.jsx';
+import You from './screens/You.jsx';
 
 export default function App() {
   return (
@@ -20,8 +21,8 @@ export default function App() {
       <Route path="/library/:categoryKey" element={<CategoryDetail />} />
       <Route path="/ritual/breath" element={<RitualBreath />} />
       <Route path="/ritual/stretch" element={<RitualStretch />} />
-      <Route path="/progress" element={<Placeholder name="Progress" showNav />} />
-      <Route path="/you" element={<Placeholder name="You" showNav />} />
+      <Route path="/progress" element={<Progress />} />
+      <Route path="/you" element={<You />} />
     </Routes>
   );
 }

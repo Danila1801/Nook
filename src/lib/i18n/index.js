@@ -27,8 +27,21 @@ function lookup(dict, key) {
   return typeof value === 'string' ? value : undefined;
 }
 
-export function t(key) {
+function interpolate(template, params) {
+  if (!params) return template;
+  return template.replace(/\{(\w+)\}/g, (match, name) => {
+    return Object.prototype.hasOwnProperty.call(params, name)
+      ? String(params[name])
+      : match;
+  });
+}
+
+export function t(key, params) {
   const dict = dictionaries[activeLocale] || dictionaries.en;
-  const value = lookup(dict, key);
-  return value !== undefined ? value : key;
+  let value = lookup(dict, key);
+  if (value === undefined && activeLocale !== 'en') {
+    value = lookup(dictionaries.en, key);
+  }
+  if (value === undefined) return key;
+  return interpolate(value, params);
 }

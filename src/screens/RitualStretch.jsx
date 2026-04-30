@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icon.jsx';
 import Figure from '../components/Figure.jsx';
 import Completion from './Completion.jsx';
 import { getStretchSequence } from '../lib/rituals/stretchSequences.js';
+import { logCompletion } from '../lib/rituals/completions.js';
 import { t } from '../lib/i18n/index.js';
 import './RitualStretch.css';
 
@@ -17,9 +18,21 @@ export default function RitualStretch() {
   const [elapsedInStep, setElapsedInStep] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const loggedRef = useRef(false);
 
   const step = sequence.steps[stepIndex];
   const isLastStep = stepIndex === sequence.steps.length - 1;
+
+  useEffect(() => {
+    if (isComplete && !loggedRef.current) {
+      loggedRef.current = true;
+      logCompletion({
+        ritualKey,
+        ritualType: 'stretch',
+        durationMin: Math.round(sequence.totalSeconds / 60),
+      });
+    }
+  }, [isComplete, ritualKey, sequence.totalSeconds]);
 
   useEffect(() => {
     if (isComplete) return undefined;

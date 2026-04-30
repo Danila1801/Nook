@@ -4,6 +4,7 @@ import Orb from '../components/Orb.jsx';
 import Icon from '../components/Icon.jsx';
 import Completion from './Completion.jsx';
 import { getBreathPattern } from '../lib/rituals/breathPatterns.js';
+import { logCompletion } from '../lib/rituals/completions.js';
 import { t } from '../lib/i18n/index.js';
 import './RitualBreath.css';
 
@@ -38,6 +39,18 @@ export default function RitualBreath() {
   const [isPaused, setIsPaused] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const startedRef = useRef(false);
+  const loggedRef = useRef(false);
+
+  useEffect(() => {
+    if (isComplete && !loggedRef.current) {
+      loggedRef.current = true;
+      logCompletion({
+        ritualKey,
+        ritualType: 'breath',
+        durationMin: Math.round(pattern.totalSeconds / 60),
+      });
+    }
+  }, [isComplete, ritualKey, pattern.totalSeconds]);
 
   useEffect(() => {
     const id = setInterval(() => {
