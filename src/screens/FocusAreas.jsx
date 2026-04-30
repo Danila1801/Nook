@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from '../lib/i18n/index.js';
+import { load, save } from '../lib/storage/index.js';
+import Icon from '../components/Icon.jsx';
 import './FocusAreas.css';
 
 const OPTION_KEYS = [
@@ -11,6 +13,17 @@ const OPTION_KEYS = [
   'moreMovement',
   'steadierFocus',
 ];
+
+const ICON_MAP = {
+  neckShoulders: 'neck-shoulders',
+  lowerBack: 'lower-back',
+  tiredEyes: 'tired-eyes',
+  calmerBreathing: 'calmer-breathing',
+  moreMovement: 'more-movement',
+  steadierFocus: 'steadier-focus',
+};
+
+const STORAGE_KEY = 'focus.selected';
 
 function Checkmark() {
   return (
@@ -36,12 +49,16 @@ function Checkmark() {
 
 export default function FocusAreas() {
   const navigate = useNavigate();
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState(() => load(STORAGE_KEY, []));
 
   function toggle(key) {
-    setSelected((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
-    );
+    setSelected((prev) => {
+      const next = prev.includes(key)
+        ? prev.filter((k) => k !== key)
+        : [...prev, key];
+      save(STORAGE_KEY, next);
+      return next;
+    });
   }
 
   const canContinue = selected.length > 0;
@@ -72,7 +89,9 @@ export default function FocusAreas() {
                 onClick={() => toggle(key)}
                 aria-pressed={isSelected}
               >
-                <span className="focus-option-icon" aria-hidden="true" />
+                <span className="focus-option-icon" aria-hidden="true">
+                  <Icon name={ICON_MAP[key]} size={18} color="var(--ink)" />
+                </span>
                 <span className="focus-option-label">{t(`focus.options.${key}`)}</span>
                 <span className="focus-option-check">
                   <Checkmark />

@@ -112,6 +112,9 @@
   background: var(--canvas);
   border: 1px solid var(--border);
   border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .focus-option-label {

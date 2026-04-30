@@ -1,0 +1,254 @@
+.rhythm {
+  min-height: 100vh;
+  background: var(--canvas);
+  display: flex;
+  flex-direction: column;
+  padding: 48px 24px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 720px) {
+  .rhythm {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+.rhythm-back {
+  align-self: flex-start;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--soft-ink);
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.rhythm-back:hover {
+  color: var(--muted-ink);
+}
+
+.rhythm-step {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--soft-ink);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.rhythm-headline {
+  margin: 8px 0 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+
+.rhythm-headline-line {
+  display: block;
+}
+
+.rhythm-headline-italic {
+  font-style: italic;
+}
+
+.rhythm-section-label {
+  margin-top: 32px;
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--soft-ink);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.rhythm-section-label-spaced {
+  margin-top: 24px;
+}
+
+.rhythm-card {
+  background: var(--surface);
+  border-radius: 14px;
+}
+
+.rhythm-card-times {
+  padding: 4px 16px;
+}
+
+.rhythm-time-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 4px;
+}
+
+.rhythm-time-row:focus-visible {
+  outline: 2px solid var(--accent-sage);
+  outline-offset: 2px;
+}
+
+.rhythm-time-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.rhythm-time-display {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--ink);
+}
+
+.rhythm-time-input-hidden {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  border: none;
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.rhythm-divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.rhythm-card-pause {
+  padding: 18px 16px;
+}
+
+.rhythm-pause-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.rhythm-pause-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.rhythm-pause-value {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.rhythm-pause-number {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 30px;
+  color: var(--ink);
+}
+
+.rhythm-pause-unit {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--soft-ink);
+}
+
+.rhythm-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  margin-top: 16px;
+  padding: 0;
+}
+
+.rhythm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-sage);
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.rhythm-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-sage);
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.rhythm-slider:focus-visible {
+  outline: 2px solid var(--accent-sage);
+  outline-offset: 4px;
+}
+
+.rhythm-hint-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.rhythm-hint {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--soft-ink);
+}
+
+.rhythm-reassurance {
+  margin: 16px 0 0 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--soft-ink);
+  line-height: 1.55;
+  max-width: 320px;
+}
+
+.rhythm-continue {
+  align-self: center;
+  margin-top: 40px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: #ffffff;
+  background: var(--ink);
+  padding: 16px 32px;
+  border-radius: 14px;
+  border: none;
+  width: 100%;
+  max-width: 320px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.rhythm-continue:hover {
+  opacity: 0.92;
+}
