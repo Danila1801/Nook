@@ -1,41 +1,20 @@
+import { Routes, Route } from 'react-router-dom';
+import Welcome from './screens/Welcome.jsx';
+import Placeholder from './components/Placeholder.jsx';
+
 export default function App() {
   return (
-    <main
-      style={{
-        minHeight: '100vh',
-        background: 'var(--canvas)',
-        color: 'var(--ink)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        padding: '2rem',
-      }}
-    >
-      <h1
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontStyle: 'italic',
-          fontWeight: 400,
-          fontSize: 'clamp(4rem, 12vw, 8rem)',
-          margin: 0,
-          letterSpacing: '-0.02em',
-        }}
-      >
-        Nook.
-      </h1>
-      <p
-        style={{
-          fontFamily: 'var(--font-body)',
-          color: 'var(--muted-ink)',
-          fontSize: '1rem',
-          marginTop: '0.5rem',
-          letterSpacing: '0.01em',
-        }}
-      >
-        rebuilding gently.
-      </p>
-    </main>
+    <Routes>
+      <Route path="/" element={<Welcome />} />
+      <Route path="/focus" element={<Placeholder name="Focus" />} />
+      <Route path="/rhythm" element={<Placeholder name="Rhythm" />} />
+      <Route path="/today" element={<Placeholder name="Today" />} />
+      <Route path="/library" element={<Placeholder name="Library" />} />
+      <Route path="/library/breath" element={<Placeholder name="Library / Breath" />} />
+      <Route path="/ritual/breath" element={<Placeholder name="Ritual / Breath" />} />
+      <Route path="/ritual/stretch" element={<Placeholder name="Ritual / Stretch" />} />
+      <Route path="/progress" element={<Placeholder name="Progress" />} />
+      <Route path="/you" element={<Placeholder name="You" />} />
+    </Routes>
   );
 }
