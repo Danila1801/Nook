@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --surface: #E8E0D0;
+  --canvas: #F4EEE3;
+  --ink: #2A2A24;
+  --muted-ink: #5B5950;
+  --soft-ink: #8E8A7C;
+  --border: #EBE3D3;
+
+  --accent: #C46B4A;
+  --accent-sage: #7A8C6E;
+  --accent-plum: #8B6FB8;
+  --accent-slate-blue: #6B8CB8;
+  --accent-deep-terracotta: #A85638;
+
+  --font-display: 'Instrument Serif', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

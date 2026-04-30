@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Health concepts — Nook · Tide · Poise</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #E8E4DC; font-family: 'Inter', system-ui, sans-serif; color: #1a1a1a; }
+  * { box-sizing: border-box; }
+  .toolbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(232,228,220,0.88);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 14px 28px; display: flex; align-items: center; gap: 18px;
+  }
+  .brand {
+    font-family: 'Instrument Serif', Georgia, serif; font-size: 20px;
+    letter-spacing: -0.3; font-style: italic;
+  }
+  .brand-sub {
+    font-size: 12px; color: #6a6660; margin-left: 8px;
+  }
+  .tabs { display: flex; gap: 4px; margin-left: auto; background: rgba(0,0,0,0.05); border-radius: 12px; padding: 4px; }
+  .tab {
+    padding: 8px 14px; border-radius: 9px; font-size: 13px; font-weight: 500;
+    cursor: pointer; color: #55524c; transition: all 0.15s; border: none; background: transparent;
+    font-family: inherit;
+  }
+  .tab.active { background: #fff; color: #1a1a1a; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+
+  .concept-intro {
+    max-width: 840px; margin: 40px auto 24px; padding: 0 28px;
+  }
+  .concept-title {
+    font-family: 'Instrument Serif', Georgia, serif; font-size: 56px;
+    letter-spacing: -1.2; line-height: 1; font-weight: 400;
+  }
+  .concept-title .ital { font-style: italic; color: #7a6e5e; }
+  .concept-tag {
+    display: inline-block;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: #6a6660; margin-bottom: 16px; font-weight: 600;
+  }
+  .concept-lede {
+    font-size: 18px; line-height: 1.5; color: #3a3832; margin-top: 18px; max-width: 640px;
+  }
+  .meta-row {
+    display: flex; gap: 40px; margin-top: 28px; padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.1); max-width: 640px;
+  }
+  .meta-item { }
+  .meta-label {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #8a8680; font-weight: 600; margin-bottom: 4px;
+  }
+  .meta-val { font-size: 13px; color: #2a2a24; line-height: 1.4; }
+
+  .screens-row {
+    display: flex; gap: 48px; padding: 48px 28px 80px;
+    justify-content: flex-start; align-items: flex-start;
+    overflow-x: auto; overscroll-behavior-x: contain;
+  }
+  .screen-cell { display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; }
+  .screen-label {
+    font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    color: #6a6660; font-weight: 600; padding-left: 4px;
+  }
+  .screen-caption { font-size: 13px; color: #3a3832; max-width: 390px; padding: 0 4px; line-height: 1.45; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="brand">Live is Health</span>
+  <span class="brand-sub">· three concept directions</span>
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="nook">Nook</button>
+    <button class="tab" data-tab="tide">Tide</button>
+    <button class="tab" data-tab="poise">Poise</button>
+  </div>
+</div>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="concepts/nook.jsx"></script>
+<script type="text/babel" src="concepts/tide.jsx"></script>
+<script type="text/babel" src="concepts/poise.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+function ConceptIntro({ tag, title, titleItal, lede, meta }) {
+  return (
+    <div className="concept-intro">
+      <div className="concept-tag">{tag}</div>
+      <div className="concept-title">
+        {title}{' '}<span className="ital">{titleItal}</span>
+      </div>
+      <div className="concept-lede">{lede}</div>
+      <div className="meta-row">
+        {meta.map((m, i) => (
+          <div key={i} className="meta-item">
+            <div className="meta-label">{m.label}</div>
+            <div className="meta-val">{m.val}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ScreensRow({ children }) {
+  return <div className="screens-row">{children}</div>;
+}
+
+function Cell({ label, caption, children }) {
+  return (
+    <div className="screen-cell">
+      <div className="screen-label">{label}</div>
+      {children}
+      {caption && <div className="screen-caption">{caption}</div>}
+    </div>
+  );
+}
+
+function NookPanel() {
+  return (
+    <div data-screen-label="Nook">
+      <ConceptIntro
+        tag="Concept 01"
+        title="Small pauses,"
+        titleItal="softly scheduled."
+        lede="Nook treats care as a garden of tiny rituals spread across your day — breath, stretch, eyes, a walk. Nothing strenuous, nothing gamified. Each pause takes 1–6 minutes and feels like a kind gesture from yourself."
+        meta={[
+          { label: 'Vibe', val: 'Warm · wellness · unhurried' },
+          { label: 'Palette', val: 'Cream, terracotta, sage' },
+          { label: 'Type', val: 'Instrument Serif + Inter' },
+          { label: 'Differentiator', val: 'Not just exercise — also eyes, breath, mind' },
+        ]}
+      />
+      <ScreensRow>
+        <Cell label="01 · Today" caption="Main screen. Timeline of the day's rituals with the next one foregrounded. The big circle is both decoration and a subtle breath guide.">
+          <NookToday />
+        </Cell>
+        <Cell label="02 · Ritual in progress" caption="Immersive full-screen when a pause starts. Darkens the world, animates breath, minimal controls.">
+          <NookRitual />
+        </Cell>
+        <Cell label="03 · Library" caption="Browse by kind of care, not by body part. Every category has a handful of pauses at different durations.">
+          <NookLibrary />
+        </Cell>
+      </ScreensRow>
+    </div>
+  );
+}
+
+function TidePanel() {
+  return (
+    <div data-screen-label="Tide">
+      <ConceptIntro
+        tag="Concept 02"
+        title="A rhythm your body"
+        titleItal="can follow."
+        lede="Tide is a Pomodoro-style timer built around the fact that your body wants to move every hour. Work in 50-minute focus blocks; each one is followed by a structured 5–10 minute break with a specific prompt. No dashboards, no streaks — just a cadence."
+        meta={[
+          { label: 'Vibe', val: 'Utilitarian · minimal · Linear-adjacent' },
+          { label: 'Palette', val: 'Off-white, deep ink, cobalt blue' },
+          { label: 'Type', val: 'Inter + JetBrains Mono' },
+          { label: 'Differentiator', val: 'Integrates with how you already work' },
+        ]}
+      />
+      <ScreensRow>
+        <Cell label="01 · Focus" caption="Current session front and center. Giant tabular timer; what's coming up in the next break is already written out below.">
+          <TideTimer />
+        </Cell>
+        <Cell label="02 · Break" caption="When the break hits, the app takes over with one clear instruction. Chips track tiny sub-tasks. Fast to skip if needed.">
+          <TideBreak />
+        </Cell>
+        <Cell label="03 · Rhythm" caption="A Gantt-style view of the day. See at a glance how your focus and recovery are balanced.">
+          <TideRhythm />
+        </Cell>
+      </ScreensRow>
+    </div>
+  );
+}
+
+function PoisePanel() {
+  return (
+    <div data-screen-label="Poise">
+      <ConceptIntro
+        tag="Concept 03"
+        title="Listen to your body,"
+        titleItal="see the patterns."
+        lede="Poise is a wellbeing journal with just enough analytics. Three times a day you do a 30-second body scan — neck, back, eyes, energy, mood. It learns what drains you and suggests specific pauses at the right moment."
+        meta={[
+          { label: 'Vibe', val: 'Analytical · soft-clinical · kind' },
+          { label: 'Palette', val: 'Off-white, slate, muted plum' },
+          { label: 'Type', val: 'Fraunces + Inter' },
+          { label: 'Differentiator', val: 'Personalized from your own data' },
+        ]}
+      />
+      <ScreensRow>
+        <Cell label="01 · Today" caption="The daily Poise score plus current body state. A single recommended pause chosen by context, not a long list.">
+          <PoiseHome />
+        </Cell>
+        <Cell label="02 · Trends" caption="Weekly patterns with human-language insights. No raw numbers without an interpretation attached.">
+          <PoiseTrends />
+        </Cell>
+        <Cell label="03 · Check-in" caption="The core input ritual. Five simple sliders, no typing. Takes 30 seconds and powers everything else.">
+          <PoiseCheckin />
+        </Cell>
+      </ScreensRow>
+    </div>
+  );
+}
+
+function App() {
+  const [tab, setTab] = useState(() => localStorage.getItem('live-health-tab') || 'nook');
+
+  useEffect(() => {
+    localStorage.setItem('live-health-tab', tab);
+    document.querySelectorAll('.tab').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === tab);
+    });
+  }, [tab]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      const b = e.target.closest('.tab');
+      if (b) setTab(b.dataset.tab);
+    };
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, []);
+
+  return (
+    <>
+      <div className={'panel ' + (tab === 'nook' ? 'active' : '')}><NookPanel /></div>
+      <div className={'panel ' + (tab === 'tide' ? 'active' : '')}><TidePanel /></div>
+      <div className={'panel ' + (tab === 'poise' ? 'active' : '')}><PoisePanel /></div>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+</body>
+</html>

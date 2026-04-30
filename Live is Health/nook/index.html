@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Nook — Full Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #E8E0D0; font-family: 'Inter', sans-serif; color: #2A2A24; }
+  * { box-sizing: border-box; }
+  input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
+
+  .tabs {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 4px; background: rgba(255,255,255,0.7); backdrop-filter: blur(12px);
+    border-radius: 14px; padding: 5px; z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  .tab {
+    padding: 9px 18px; border-radius: 10px; font-size: 13px; font-weight: 500;
+    color: #5B5950; cursor: pointer; border: none; background: transparent;
+    font-family: inherit; letter-spacing: 0.1px;
+  }
+  .tab.active { background: #2A2A24; color: #fff; }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* Canvas */
+  .canvas-wrap {
+    padding: 96px 48px 64px;
+    min-height: 100vh;
+  }
+  .canvas-header {
+    max-width: 1200px; margin: 0 auto 44px;
+  }
+  .canvas-header .eyebrow {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: #8E8A7C; font-weight: 600;
+  }
+  .canvas-header h1 {
+    font-family: 'Instrument Serif', serif; font-size: 56px;
+    font-weight: 400; letter-spacing: -1px; margin: 6px 0 0;
+    line-height: 1.05;
+  }
+  .canvas-header h1 em { color: #C46B4A; font-style: italic; }
+  .canvas-header p { font-size: 15px; color: #5B5950; max-width: 560px; line-height: 1.55; margin: 14px 0 0; }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(4, 390px);
+    gap: 64px 56px; justify-content: center;
+  }
+  .cell { display: flex; flex-direction: column; align-items: center; }
+  .cell-label {
+    margin-top: 22px; text-align: center;
+  }
+  .cell-label .num {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: #8E8A7C; letter-spacing: 1px;
+  }
+  .cell-label .name {
+    font-family: 'Instrument Serif', serif; font-size: 22px;
+    color: #2A2A24; margin-top: 2px; letter-spacing: -0.2px;
+  }
+  .cell-label .desc {
+    font-size: 12px; color: #8E8A7C; margin-top: 3px; max-width: 280px;
+  }
+
+  /* Prototype */
+  .proto {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 80px 24px 40px; position: relative;
+  }
+  .proto-meta {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: rgba(255,255,255,0.8); backdrop-filter: blur(12px);
+    border-radius: 12px; padding: 10px 18px;
+    font-size: 12px; color: #5B5950; letter-spacing: 0.1px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06); z-index: 50;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .proto-meta b { color: #C46B4A; font-weight: 600; }
+  .proto-reset {
+    border: none; background: transparent; color: #8E8A7C; cursor: pointer;
+    font-size: 12px; padding: 0; font-family: inherit;
+    border-left: 1px solid rgba(0,0,0,0.1); padding-left: 10px; margin-left: 4px;
+  }
+
+  /* Tweaks panel */
+  .tweaks {
+    position: fixed; right: 20px; bottom: 20px; width: 280px;
+    background: #FFFFFF; border: 1px solid #EBE3D3;
+    border-radius: 16px; padding: 16px 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.12); z-index: 200;
+    display: none; font-size: 13px;
+  }
+  .tweaks.on { display: block; }
+  .tweaks h3 {
+    font-family: 'Instrument Serif', serif; font-size: 18px;
+    margin: 0 0 4px; font-weight: 400; letter-spacing: -0.2px;
+  }
+  .tweaks .hint { font-size: 11px; color: #8E8A7C; margin-bottom: 12px; }
+  .tweaks .group { margin-top: 14px; }
+  .tweaks .glabel {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #8E8A7C; font-weight: 600; margin-bottom: 8px;
+  }
+  .swatches { display: flex; gap: 8px; }
+  .sw {
+    width: 34px; height: 34px; border-radius: 10px; cursor: pointer;
+    border: 2px solid transparent;
+  }
+  .sw.on { border-color: #2A2A24; }
+  .chips { display: flex; gap: 6px; }
+  .chip {
+    padding: 7px 12px; border-radius: 10px; font-size: 12px; cursor: pointer;
+    border: 1px solid #EBE3D3; background: #FFFFFF; color: #5B5950;
+    font-family: inherit;
+  }
+  .chip.on { background: #2A2A24; color: #fff; border-color: #2A2A24; }
+
+  /* Density */
+  body.density-cozy .canvas-wrap { padding: 72px 32px 48px; }
+  body.density-cozy .grid { gap: 44px 40px; }
+  body.density-airy .canvas-wrap { padding: 120px 64px 80px; }
+  body.density-airy .grid { gap: 80px 72px; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<template id="__bundler_thumbnail" data-bg-color="#F4EEE3">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="g" cx="40%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#E8D4BE"/>
+        <stop offset="100%" stop-color="#C46B4A"/>
+      </radialGradient>
+    </defs>
+    <circle cx="600" cy="400" r="220" fill="url(#g)"/>
+    <circle cx="600" cy="400" r="180" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+    <circle cx="600" cy="400" r="130" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    <text x="600" y="640" text-anchor="middle"
+      font-family="Georgia, serif" font-size="64" fill="#2A2A24"
+      font-style="italic">Nook</text>
+  </svg>
+</template>
+
+<div class="tabs">
+  <button class="tab active" data-view="canvas">Canvas</button>
+  <button class="tab" data-view="proto">Prototype</button>
+</div>
+
+<div class="view active" id="v-canvas">
+  <div class="canvas-wrap">
+    <div class="canvas-header">
+      <div class="eyebrow">Concept · Nook</div>
+      <h1>A quiet companion<br/><em>for the working body.</em></h1>
+      <p>Ten screens exploring the full flow: meeting the app, shaping your rhythm, meeting a pause when it arrives, and looking back at what you've done for yourself.</p>
+    </div>
+    <div class="grid" id="canvas-grid"></div>
+  </div>
+</div>
+
+<div class="view" id="v-proto">
+  <div class="proto" id="proto-mount"></div>
+  <div class="proto-meta">
+    <span>Prototype · tap inside the phone to navigate</span>
+    <b id="proto-current">Welcome</b>
+    <button class="proto-reset" onclick="window.__resetProto && window.__resetProto()">Reset</button>
+  </div>
+</div>
+
+<div class="tweaks" id="tweaks">
+  <h3>Tweaks</h3>
+  <div class="hint">Fine-tune the surface — changes apply live.</div>
+  <div class="group">
+    <div class="glabel">Accent</div>
+    <div class="swatches" id="sw-accent">
+      <div class="sw on" data-accent="#C46B4A" style="background:#C46B4A"></div>
+      <div class="sw" data-accent="#7A8C6E" style="background:#7A8C6E"></div>
+      <div class="sw" data-accent="#8B6FB8" style="background:#8B6FB8"></div>
+      <div class="sw" data-accent="#6B8CB8" style="background:#6B8CB8"></div>
+      <div class="sw" data-accent="#A85638" style="background:#A85638"></div>
+    </div>
+  </div>
+  <div class="group">
+    <div class="glabel">Canvas density</div>
+    <div class="chips" id="chips-density">
+      <button class="chip" data-density="cozy">Cozy</button>
+      <button class="chip on" data-density="normal">Normal</button>
+      <button class="chip" data-density="airy">Airy</button>
+    </div>
+  </div>
+</div>
+
+<script type="text/babel" src="./kit.jsx"></script>
+<script type="text/babel" src="./screens-a.jsx"></script>
+<script type="text/babel" src="./screens-b.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const SCREENS = [
+  { num: '01', name: 'Welcome', desc: 'First impression, brand tone.', C: () => <NookOnb1 next={() => {}} /> },
+  { num: '02', name: 'Focus areas', desc: 'What feels heavy? Multi-select.', C: () => <NookOnb2 next={() => {}} back={() => {}} /> },
+  { num: '03', name: 'Your rhythm', desc: 'Working hours & pause frequency.', C: () => <NookOnb3 next={() => {}} back={() => {}} /> },
+  { num: '04', name: 'Today', desc: 'Home — 6 pauses through the day.', C: () => <NookToday2 goRitual={() => {}} onNav={() => {}} /> },
+  { num: '05', name: 'Library', desc: 'All categories of rituals.', C: () => <NookLibrary2 onNav={() => {}} /> },
+  { num: '06', name: 'Category · Breath', desc: 'Detail list inside a category.', C: () => <NookLibDetail back={() => {}} goRitual={() => {}} /> },
+  { num: '07', name: 'Ritual · Breath', desc: 'Guided session, dark & calm.', C: () => <NookRitualBreath close={() => {}} /> },
+  { num: '08', name: 'Ritual · Stretch', desc: 'Step-by-step with illustration.', C: () => <NookRitualStretch close={() => {}} /> },
+  { num: '09', name: 'Progress', desc: 'Weekly pauses, gentle observations.', C: () => <NookProgress onNav={() => {}} /> },
+  { num: '10', name: 'You', desc: 'Profile & settings.', C: () => <NookYou onNav={() => {}} /> },
+];
+
+// Canvas
+(() => {
+  const grid = document.getElementById('canvas-grid');
+  SCREENS.forEach(s => {
+    const cell = document.createElement('div'); cell.className = 'cell';
+    const host = document.createElement('div');
+    const label = document.createElement('div'); label.className = 'cell-label';
+    label.innerHTML = `<div class="num">${s.num}</div><div class="name">${s.name}</div><div class="desc">${s.desc}</div>`;
+    cell.appendChild(host); cell.appendChild(label);
+    grid.appendChild(cell);
+    ReactDOM.createRoot(host).render(<s.C />);
+  });
+})();
+
+// Prototype flow
+function Prototype() {
+  const initial = localStorage.getItem('nook.proto.screen') || 'onb1';
+  const [scr, setScr] = useState(initial);
+  useEffect(() => {
+    localStorage.setItem('nook.proto.screen', scr);
+    const labels = {
+      onb1:'Welcome', onb2:'Focus areas', onb3:'Your rhythm',
+      today:'Today', library:'Library', libdetail:'Category · Breath',
+      ritualBreath:'Ritual · Breath', ritualStretch:'Ritual · Stretch',
+      progress:'Progress', you:'You'
+    };
+    const el = document.getElementById('proto-current');
+    if (el) el.textContent = labels[scr] || scr;
+  }, [scr]);
+  window.__resetProto = () => setScr('onb1');
+
+  const onNav = (k) => {
+    if (k === 'today') setScr('today');
+    if (k === 'library') setScr('library');
+    if (k === 'progress') setScr('progress');
+    if (k === 'you') setScr('you');
+  };
+
+  switch (scr) {
+    case 'onb1': return <NookOnb1 next={() => setScr('onb2')} />;
+    case 'onb2': return <NookOnb2 next={() => setScr('onb3')} back={() => setScr('onb1')} />;
+    case 'onb3': return <NookOnb3 next={() => setScr('today')} back={() => setScr('onb2')} />;
+    case 'today': return <NookToday2 goRitual={() => setScr('ritualStretch')} onNav={onNav} />;
+    case 'library': return <NookLibrary2 onNav={onNav} />;
+    case 'libdetail': return <NookLibDetail back={() => setScr('library')} goRitual={() => setScr('ritualBreath')} />;
+    case 'ritualBreath': return <NookRitualBreath close={() => setScr('today')} />;
+    case 'ritualStretch': return <NookRitualStretch close={() => setScr('today')} />;
+    case 'progress': return <NookProgress onNav={onNav} />;
+    case 'you': return <NookYou onNav={onNav} />;
+    default: return <NookOnb1 next={() => setScr('onb2')} />;
+  }
+}
+
+// only mount prototype once the proto tab is opened (keeps onboarding animation fresh)
+let protoRoot = null;
+function mountProto() {
+  if (!protoRoot) {
+    protoRoot = ReactDOM.createRoot(document.getElementById('proto-mount'));
+    protoRoot.render(<Prototype />);
+  }
+}
+
+// Tab switching
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const v = btn.dataset.view;
+    document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+    document.getElementById('v-' + v).classList.add('active');
+    localStorage.setItem('nook.view', v);
+    if (v === 'proto') mountProto();
+  });
+});
+// restore view
+const savedView = localStorage.getItem('nook.view');
+if (savedView === 'proto') document.querySelector('.tab[data-view="proto"]').click();
+
+// Tweaks
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#7A8C6E",
+  "density": "normal"
+}/*EDITMODE-END*/;
+
+const tweaksEl = document.getElementById('tweaks');
+
+function applyAccent(hex) {
+  // rewrite terracotta (#C46B4A) references via CSS variable override.
+  // Since components inline it, we do DOM search-and-replace on the grid & proto after render.
+  document.documentElement.style.setProperty('--accent', hex);
+  // Re-render everything with new accent — easiest: reload the root token and remount.
+  window.nookT && (window.nookT.terracotta = hex);
+  // remount canvas
+  const grid = document.getElementById('canvas-grid'); grid.innerHTML = '';
+  SCREENS.forEach(s => {
+    const cell = document.createElement('div'); cell.className = 'cell';
+    const host = document.createElement('div');
+    const label = document.createElement('div'); label.className = 'cell-label';
+    label.innerHTML = `<div class="num">${s.num}</div><div class="name">${s.name}</div><div class="desc">${s.desc}</div>`;
+    cell.appendChild(host); cell.appendChild(label); grid.appendChild(cell);
+    ReactDOM.createRoot(host).render(<s.C />);
+  });
+  // remount proto
+  if (protoRoot) { protoRoot.unmount(); protoRoot = null; mountProto(); }
+}
+function applyDensity(d) {
+  document.body.classList.remove('density-cozy','density-normal','density-airy');
+  document.body.classList.add('density-' + d);
+}
+
+function applyAll(s) {
+  applyAccent(s.accent);
+  applyDensity(s.density);
+  document.querySelectorAll('#sw-accent .sw').forEach(el =>
+    el.classList.toggle('on', el.dataset.accent === s.accent));
+  document.querySelectorAll('#chips-density .chip').forEach(el =>
+    el.classList.toggle('on', el.dataset.density === s.density));
+}
+
+let STATE = Object.assign({}, TWEAK_DEFAULTS);
+applyAll(STATE);
+
+document.getElementById('sw-accent').addEventListener('click', (e) => {
+  const sw = e.target.closest('.sw'); if (!sw) return;
+  STATE.accent = sw.dataset.accent; applyAll(STATE);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { accent: STATE.accent } }, '*');
+});
+document.getElementById('chips-density').addEventListener('click', (e) => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  STATE.density = c.dataset.density; applyAll(STATE);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { density: STATE.density } }, '*');
+});
+
+// Tweaks activation protocol
+window.addEventListener('message', (ev) => {
+  if (ev.data && ev.data.type === '__activate_edit_mode') tweaksEl.classList.add('on');
+  if (ev.data && ev.data.type === '__deactivate_edit_mode') tweaksEl.classList.remove('on');
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+
+</body>
+</html>
