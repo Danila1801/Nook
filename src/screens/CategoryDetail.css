@@ -1,0 +1,149 @@
+.category-detail {
+  min-height: 100vh;
+  background: var(--canvas);
+  box-sizing: border-box;
+}
+
+.category-detail-main {
+  padding: 32px 24px 96px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+@media (min-width: 720px) {
+  .category-detail-main {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+.category-detail-back {
+  align-self: flex-start;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--soft-ink);
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.category-detail-back:hover {
+  color: var(--muted-ink);
+}
+
+.category-detail-eyebrow {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--soft-ink);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.category-detail-headline {
+  margin: 8px 0 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+
+.category-detail-headline-line {
+  display: block;
+}
+
+.category-detail-headline-italic {
+  font-style: italic;
+}
+
+.category-detail-body {
+  margin: 14px 0 0 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--muted-ink);
+  line-height: 1.55;
+  max-width: 320px;
+}
+
+.category-detail-rituals {
+  list-style: none;
+  margin: 28px 0 0 0;
+  padding: 0;
+}
+
+.category-detail-ritual {
+  border-bottom: 1px solid var(--border);
+}
+
+.category-detail-ritual:last-child {
+  border-bottom: none;
+}
+
+.category-detail-ritual-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 14px 0;
+  cursor: pointer;
+  text-align: left;
+  transition: filter 0.2s ease;
+}
+
+.category-detail-ritual-button:hover {
+  filter: brightness(0.98);
+}
+
+.category-detail-ritual-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-detail-ritual-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.category-detail-ritual-name {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.category-detail-ritual-line {
+  margin-top: 2px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--soft-ink);
+  line-height: 1.4;
+}
+
+.category-detail-ritual-duration {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--soft-ink);
+  flex-shrink: 0;
+}
