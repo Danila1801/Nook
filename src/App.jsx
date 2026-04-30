@@ -5,6 +5,8 @@ import Rhythm from './screens/Rhythm.jsx';
 import Today from './screens/Today.jsx';
 import Library from './screens/Library.jsx';
 import CategoryDetail from './screens/CategoryDetail.jsx';
+import RitualBreath from './screens/RitualBreath.jsx';
+import RitualStretch from './screens/RitualStretch.jsx';
 import Placeholder from './components/Placeholder.jsx';
 
 export default function App() {
@@ -16,8 +18,8 @@ export default function App() {
       <Route path="/today" element={<Today />} />
       <Route path="/library" element={<Library />} />
       <Route path="/library/:categoryKey" element={<CategoryDetail />} />
-      <Route path="/ritual/breath" element={<Placeholder name="Ritual / Breath" />} />
-      <Route path="/ritual/stretch" element={<Placeholder name="Ritual / Stretch" />} />
+      <Route path="/ritual/breath" element={<RitualBreath />} />
+      <Route path="/ritual/stretch" element={<RitualStretch />} />
       <Route path="/progress" element={<Placeholder name="Progress" showNav />} />
       <Route path="/you" element={<Placeholder name="You" showNav />} />
     </Routes>

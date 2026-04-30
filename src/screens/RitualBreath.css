@@ -1,0 +1,131 @@
+.ritual-breath {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--ink-deep);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ritual-breath-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 20px 0 20px;
+}
+
+.ritual-breath-close {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.ritual-breath-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ritual-breath-eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.ritual-breath-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+}
+
+.ritual-breath-orb-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.ritual-breath-orb {
+  display: inline-flex;
+  transition: transform var(--orb-duration, 4s) ease-in-out;
+  transform: scale(var(--orb-scale, 1));
+  will-change: transform;
+}
+
+.ritual-breath-orb-paused {
+  transition: none;
+}
+
+.ritual-breath-phase {
+  margin-top: 56px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.ritual-breath-phase-paused {
+  opacity: 0.4;
+}
+
+.ritual-breath-phase-seconds {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+.ritual-breath-bottom {
+  padding: 24px 24px 40px 24px;
+}
+
+.ritual-breath-progress {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.ritual-breath-progress-fill {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  transition: width 0.5s linear;
+}
+
+.ritual-breath-time {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: left;
+}

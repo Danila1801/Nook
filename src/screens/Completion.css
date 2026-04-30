@@ -1,0 +1,80 @@
+.completion {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  box-sizing: border-box;
+}
+
+.completion-dark {
+  background: var(--ink-deep);
+  color: #ffffff;
+}
+
+.completion-light {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+.completion-orb-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.completion-heading {
+  margin: 32px 0 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  text-align: center;
+}
+
+.completion-body {
+  margin: 12px 0 0 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+  max-width: 320px;
+}
+
+.completion-dark .completion-body {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.completion-light .completion-body {
+  color: var(--muted-ink);
+}
+
+.completion-cta {
+  margin-top: 56px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  padding: 14px 32px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.completion-cta:hover {
+  filter: brightness(0.95);
+}
+
+.completion-dark .completion-cta {
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.completion-light .completion-cta {
+  background: var(--ink);
+  color: #ffffff;
+}

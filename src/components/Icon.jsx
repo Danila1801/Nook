@@ -81,6 +81,12 @@ const glyphs = {
   'check': (
     <path d="M 5 12 L 10 17 L 19 8" />
   ),
+  'x-close': (
+    <>
+      <path d="M 6 6 L 18 18" />
+      <path d="M 18 6 L 6 18" />
+    </>
+  ),
 };
 
 export default function Icon({ name, size = 20, color = 'currentColor' }) {
