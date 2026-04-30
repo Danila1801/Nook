@@ -1,0 +1,159 @@
+.focus {
+  min-height: 100vh;
+  background: var(--canvas);
+  display: flex;
+  flex-direction: column;
+  padding: 48px 24px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 720px) {
+  .focus {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+.focus-back {
+  align-self: flex-start;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--soft-ink);
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.focus-back:hover {
+  color: var(--muted-ink);
+}
+
+.focus-step {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--soft-ink);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.focus-headline {
+  margin: 8px 0 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+
+.focus-headline-line {
+  display: block;
+}
+
+.focus-headline-italic {
+  font-style: italic;
+}
+
+.focus-body {
+  margin: 14px 0 0 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--muted-ink);
+  line-height: 1.55;
+  max-width: 320px;
+}
+
+.focus-options {
+  list-style: none;
+  margin: 32px 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.focus-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: var(--surface);
+  border: none;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s ease, filter 0.2s ease;
+}
+
+.focus-option:hover {
+  filter: brightness(0.97);
+}
+
+.focus-option-selected {
+  background: var(--accent-sage-soft);
+}
+
+.focus-option-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.focus-option-label {
+  flex: 1;
+}
+
+.focus-option-check {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+}
+
+.focus-option-selected .focus-option-check {
+  visibility: visible;
+}
+
+.focus-continue {
+  align-self: center;
+  margin-top: 32px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: #ffffff;
+  background: var(--ink);
+  padding: 16px 32px;
+  border-radius: 14px;
+  border: none;
+  width: 100%;
+  max-width: 320px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.focus-continue:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.focus-continue:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

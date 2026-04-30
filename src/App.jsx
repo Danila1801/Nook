@@ -1,12 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
 import Welcome from './screens/Welcome.jsx';
+import FocusAreas from './screens/FocusAreas.jsx';
 import Placeholder from './components/Placeholder.jsx';
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Welcome />} />
-      <Route path="/focus" element={<Placeholder name="Focus" />} />
+      <Route path="/focus" element={<FocusAreas />} />
       <Route path="/rhythm" element={<Placeholder name="Rhythm" />} />
       <Route path="/today" element={<Placeholder name="Today" />} />
       <Route path="/library" element={<Placeholder name="Library" />} />

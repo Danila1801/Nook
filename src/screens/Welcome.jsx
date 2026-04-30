@@ -8,14 +8,12 @@ export default function Welcome() {
 
   return (
     <main className="welcome">
-      <div className="welcome-spacer-top" />
       <Orb size={112} />
       <div className="welcome-headline">
         <span className="welcome-headline-line">{t('welcome.headingPrefix')}</span>
         <span className="welcome-headline-line welcome-headline-italic">{t('welcome.brand')}</span>
       </div>
       <p className="welcome-body">{t('welcome.body')}</p>
-      <div className="welcome-spacer-flex" />
       <button
         type="button"
         className="welcome-cta"

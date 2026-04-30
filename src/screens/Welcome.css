@@ -3,8 +3,9 @@
   background: var(--canvas);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 64px 24px;
+  padding: 48px 24px;
   box-sizing: border-box;
 }
 
@@ -13,11 +14,6 @@
     max-width: 540px;
     margin: 0 auto;
   }
-}
-
-.welcome-spacer-top {
-  height: 12vh;
-  flex-shrink: 0;
 }
 
 .welcome-headline {
@@ -57,11 +53,8 @@
   text-align: center;
 }
 
-.welcome-spacer-flex {
-  flex: 1;
-}
-
 .welcome-cta {
+  margin-top: 56px;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 15px;
