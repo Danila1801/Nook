@@ -1,10 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import Orb from '../components/Orb.jsx';
+import { load, save } from '../lib/storage/index.js';
 import { t } from '../lib/i18n/index.js';
 import './Welcome.css';
 
 export default function Welcome() {
   const navigate = useNavigate();
+
+  const handleBegin = () => {
+    if (load('onboarded.at', null) === null) {
+      save('onboarded.at', new Date().toISOString());
+    }
+    navigate('/focus');
+  };
 
   return (
     <main className="welcome">
@@ -17,7 +25,7 @@ export default function Welcome() {
       <button
         type="button"
         className="welcome-cta"
-        onClick={() => navigate('/focus')}
+        onClick={handleBegin}
       >
         {t('welcome.beginCta')} →
       </button>

@@ -96,7 +96,7 @@ export default function RitualBreath() {
           type="button"
           className="ritual-breath-close"
           aria-label={t('ritualPlayer.closeAria')}
-          onClick={() => navigate('/today')}
+          onClick={() => navigate(-1)}
         >
           <Icon name="x-close" size={20} />
         </button>

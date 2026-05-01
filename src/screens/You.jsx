@@ -39,7 +39,10 @@ export default function You() {
   const darkLabel = (v) =>
     v === 'auto' ? t('you.auto') : v === 'on' ? t('you.on') : t('you.off');
 
-  const daysWithNook = 42;
+  const onboardedAt = load('onboarded.at', null);
+  const daysWithNook = onboardedAt
+    ? Math.max(1, Math.floor((Date.now() - new Date(onboardedAt).getTime()) / 86400000))
+    : 1;
 
   return (
     <div className="you">

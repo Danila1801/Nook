@@ -8,8 +8,8 @@ import './CategoryDetail.css';
 const CATEGORY_TO_RITUAL_PATH = {
   breath: '/ritual/breath',
   stretch: '/ritual/stretch',
-  eyes: '/ritual/breath',
-  move: '/ritual/breath',
+  eyes: '/ritual/eye',
+  move: '/ritual/movement',
   mind: '/ritual/breath',
 };
 
@@ -33,7 +33,7 @@ export default function CategoryDetail() {
         <button
           type="button"
           className="category-detail-back"
-          onClick={() => navigate('/library')}
+          onClick={() => navigate(-1)}
         >
           {'‹ '}{t('categoryDetail.back')}
         </button>

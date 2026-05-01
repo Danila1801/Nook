@@ -18,8 +18,8 @@ const TYPE_TO_ICON = {
 const TYPE_TO_RITUAL_PATH = {
   breath: '/ritual/breath',
   stretch: '/ritual/stretch',
-  eye: '/ritual/breath',
-  movement: '/ritual/breath',
+  eye: '/ritual/eye',
+  movement: '/ritual/movement',
 };
 
 const WEEKDAYS = [
@@ -41,28 +41,37 @@ function minutesUntil(timeHHMM, now) {
   return Math.round((target - now) / 60000);
 }
 
+function isBeforeWork(now, startTimeHHMM) {
+  const [h, m] = startTimeHHMM.split(':').map(Number);
+  const start = new Date(now);
+  start.setHours(h, m, 0, 0);
+  return now < start;
+}
+
 export default function Today() {
   const navigate = useNavigate();
   const [now, setNow] = useState(() => new Date());
   const [pauses, setPauses] = useState([]);
+  const [settings, setSettings] = useState(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const settings = load('rhythm.settings', null);
+    const loadedSettings = load('rhythm.settings', null);
     const focusAreas = load('focus.selected', null);
-    if (!settings || !focusAreas) {
+    if (!loadedSettings || !focusAreas) {
       navigate('/');
       return;
     }
     const initialNow = new Date();
     setNow(initialNow);
-    setPauses(buildPausesForToday(settings, focusAreas, initialNow));
+    setSettings(loadedSettings);
+    setPauses(buildPausesForToday(loadedSettings, focusAreas, initialNow));
     setReady(true);
 
     const interval = setInterval(() => {
       const tick = new Date();
       setNow(tick);
-      setPauses(buildPausesForToday(settings, focusAreas, tick));
+      setPauses(buildPausesForToday(loadedSettings, focusAreas, tick));
     }, 60000);
 
     return () => clearInterval(interval);
@@ -73,6 +82,53 @@ export default function Today() {
   const nextPause = pauses.find((p) => p.status === 'next');
   const doneCount = pauses.filter((p) => p.status === 'done').length;
   const total = pauses.length;
+
+  const allDone = total > 0 && !nextPause;
+  const beforeWork =
+    settings && doneCount === 0 && nextPause && isBeforeWork(now, settings.startTime);
+
+  let upNextEyebrow = null;
+  let upNextName = null;
+  let upNextLine = null;
+  let upNextOnClick = null;
+  let upNextChevron = false;
+
+  if (allDone) {
+    upNextEyebrow = t('today.allDoneEyebrow');
+    upNextName = t('today.allDoneName');
+    upNextLine = t('today.allDoneLine');
+  } else if (beforeWork) {
+    upNextEyebrow = t('today.beforeWorkEyebrow');
+    upNextName = t('today.beforeWorkName');
+    upNextLine = t('today.beforeWorkLine');
+  } else if (nextPause) {
+    const minsUntil = minutesUntil(nextPause.time, now);
+    const tail = minsUntil <= 0
+      ? t('today.now')
+      : `${t('today.inMin')} ${minsUntil} ${t('today.minShort')}`;
+    upNextEyebrow = `${t('today.upNext')} · ${tail}`;
+    upNextName = t(`rituals.${nextPause.ritualKey}.name`);
+    upNextLine = t(`rituals.${nextPause.ritualKey}.line`);
+    upNextChevron = true;
+    upNextOnClick = () =>
+      navigate(TYPE_TO_RITUAL_PATH[nextPause.ritualType] || '/ritual/breath', {
+        state: { ritualKey: nextPause.ritualKey },
+      });
+  }
+
+  const upNextCardContent = (
+    <>
+      <Orb size={56} />
+      <span className="today-upnext-body">
+        <span className="today-upnext-eyebrow">{upNextEyebrow}</span>
+        <span className="today-upnext-name">{upNextName}</span>
+        <span className="today-upnext-line">{upNextLine}</span>
+      </span>
+      {upNextChevron && (
+        <Icon name="chevron-right" size={16} color="var(--soft-ink)" />
+      )}
+    </>
+  );
 
   return (
     <div className="today">
@@ -85,26 +141,20 @@ export default function Today() {
           </h1>
         </div>
 
-        {nextPause && (
-          <button
-            type="button"
-            className="today-upnext"
-            onClick={() => navigate(TYPE_TO_RITUAL_PATH[nextPause.ritualType])}
-          >
-            <Orb size={56} />
-            <span className="today-upnext-body">
-              <span className="today-upnext-eyebrow">
-                {t('today.upNext')}
-                {' · '}
-                {minutesUntil(nextPause.time, now) <= 0
-                  ? t('today.now')
-                  : `${t('today.inMin')} ${minutesUntil(nextPause.time, now)} ${t('today.minShort')}`}
-              </span>
-              <span className="today-upnext-name">{t(`rituals.${nextPause.ritualKey}.name`)}</span>
-              <span className="today-upnext-line">{t(`rituals.${nextPause.ritualKey}.line`)}</span>
-            </span>
-            <Icon name="chevron-right" size={16} color="var(--soft-ink)" />
-          </button>
+        {upNextEyebrow && (
+          upNextOnClick ? (
+            <button
+              type="button"
+              className="today-upnext"
+              onClick={upNextOnClick}
+            >
+              {upNextCardContent}
+            </button>
+          ) : (
+            <div className="today-upnext today-upnext-passive">
+              {upNextCardContent}
+            </div>
+          )
         )}
 
         <div className="today-rhythm">

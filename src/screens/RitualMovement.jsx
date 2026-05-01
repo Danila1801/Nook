@@ -1,18 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icon.jsx';
-import Figure from '../components/Figure.jsx';
 import Completion from './Completion.jsx';
-import { getStretchSequence } from '../lib/rituals/stretchSequences.js';
+import { getMovementSequence } from '../lib/rituals/movementSequences.js';
 import { logCompletion } from '../lib/rituals/completions.js';
 import { t } from '../lib/i18n/index.js';
-import './RitualStretch.css';
+import './RitualMovement.css';
 
-export default function RitualStretch() {
+export default function RitualMovement() {
   const navigate = useNavigate();
   const location = useLocation();
-  const ritualKey = location.state?.ritualKey || 'shouldersAndNeck';
-  const sequence = useMemo(() => getStretchSequence(ritualKey), [ritualKey]);
+  const ritualKey = location.state?.ritualKey || 'walkAndWater';
+  const sequence = useMemo(() => getMovementSequence(ritualKey), [ritualKey]);
 
   const [stepIndex, setStepIndex] = useState(0);
   const [elapsedInStep, setElapsedInStep] = useState(0);
@@ -28,8 +27,8 @@ export default function RitualStretch() {
       loggedRef.current = true;
       logCompletion({
         ritualKey,
-        ritualType: 'stretch',
-        durationMin: Math.round(sequence.totalSeconds / 60),
+        ritualType: 'movement',
+        durationMin: Math.max(1, Math.round(sequence.totalSeconds / 60)),
       });
     }
   }, [isComplete, ritualKey, sequence.totalSeconds]);
@@ -56,18 +55,12 @@ export default function RitualStretch() {
   }, [isPaused, step.seconds, isLastStep, isComplete]);
 
   if (isComplete) {
-    return <Completion type="stretch" onClose={() => navigate('/today')} />;
+    return <Completion type="movement" onClose={() => navigate('/today')} />;
   }
 
-  const totalMin = Math.round(sequence.totalSeconds / 60);
-  const eyebrow = `${t('ritualPlayer.typeLabels.stretch').toUpperCase()} · ${totalMin} ${t('ritualPlayer.minLabel').toUpperCase()}`;
+  const totalMin = Math.max(1, Math.round(sequence.totalSeconds / 60));
+  const eyebrow = `${t('ritualPlayer.typeLabels.move').toUpperCase()} · ${totalMin} ${t('ritualPlayer.minLabel').toUpperCase()}`;
   const remainingInStep = Math.max(0, step.seconds - elapsedInStep);
-  const stepProgressPct = Math.min(100, (elapsedInStep / step.seconds) * 100);
-  const holdWord = t('ritualPlayer.holdLabel').toUpperCase();
-  const secondsWord = (remainingInStep === 1
-    ? t('ritualPlayer.secondLabel')
-    : t('ritualPlayer.secondsLabel')
-  ).toUpperCase();
 
   const handleNext = () => {
     if (isLastStep) {
@@ -79,48 +72,36 @@ export default function RitualStretch() {
   };
 
   return (
-    <div className="ritual-stretch">
-      <div className="ritual-stretch-top">
+    <div className="ritual-movement">
+      <div className="ritual-movement-top">
         <button
           type="button"
-          className="ritual-stretch-close"
+          className="ritual-movement-close"
           aria-label={t('ritualPlayer.closeAria')}
           onClick={() => navigate(-1)}
         >
           <Icon name="x-close" size={20} />
         </button>
-        <span className="ritual-stretch-eyebrow">{eyebrow}</span>
+        <span className="ritual-movement-eyebrow">{eyebrow}</span>
       </div>
-      <div className="ritual-stretch-step-indicator">
-        {t('ritualPlayer.step')} {stepIndex + 1} {t('ritualPlayer.of')} {sequence.steps.length}
+      <div className="ritual-movement-center">
+        <span className="ritual-movement-step-indicator">
+          {t('ritualPlayer.step')} {stepIndex + 1} {t('ritualPlayer.of')} {sequence.steps.length}
+        </span>
+        <p className="ritual-movement-instruction">
+          {t(`ritualPlayer.instructions.${step.instructionKey}`)}
+        </p>
+        <div className="ritual-movement-countdown">{remainingInStep}</div>
       </div>
-      <h1 className="ritual-stretch-name">{t(`ritualPlayer.stepNames.${step.nameKey}`)}</h1>
-      <p className="ritual-stretch-instruction">
-        {t(`ritualPlayer.instructions.${step.instructionKey}`)}
-      </p>
-      <div className="ritual-stretch-figure">
-        <Figure figureKey={step.figureKey} size={240} />
-      </div>
-      <div className="ritual-stretch-hold">
-        <div className="ritual-stretch-hold-bar">
-          <div
-            className="ritual-stretch-hold-bar-fill"
-            style={{ width: `${stepProgressPct}%` }}
-          />
-        </div>
-        <div className="ritual-stretch-hold-label">
-          {holdWord} {remainingInStep} {secondsWord}
-        </div>
-      </div>
-      <div className="ritual-stretch-bottom">
+      <div className="ritual-movement-bottom">
         <button
           type="button"
-          className="ritual-stretch-pause"
+          className="ritual-movement-pause"
           onClick={() => setIsPaused((p) => !p)}
         >
           {isPaused ? t('ritualPlayer.resume') : t('ritualPlayer.pause')}
         </button>
-        <button type="button" className="ritual-stretch-next" onClick={handleNext}>
+        <button type="button" className="ritual-movement-next" onClick={handleNext}>
           {isLastStep ? t('ritualPlayer.finish') : t('ritualPlayer.nextStep')}
         </button>
       </div>

@@ -1,0 +1,112 @@
+.ritual-movement {
+  position: fixed;
+  inset: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.ritual-movement-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+}
+
+.ritual-movement-close {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ritual-movement-close:hover {
+  color: var(--muted-ink);
+}
+
+.ritual-movement-eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--soft-ink);
+}
+
+.ritual-movement-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.ritual-movement-step-indicator {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--soft-ink);
+  text-transform: uppercase;
+}
+
+.ritual-movement-instruction {
+  margin: 16px 0 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.3;
+  color: var(--ink);
+  max-width: 380px;
+}
+
+.ritual-movement-countdown {
+  margin-top: 24px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--soft-ink);
+}
+
+.ritual-movement-bottom {
+  display: flex;
+  gap: 12px;
+  padding: 24px;
+}
+
+.ritual-movement-pause,
+.ritual-movement-next {
+  flex: 1;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  padding: 14px 24px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.ritual-movement-pause {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.ritual-movement-next {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+.ritual-movement-pause:hover,
+.ritual-movement-next:hover {
+  opacity: 0.92;
+}
