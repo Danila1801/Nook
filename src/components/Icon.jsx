@@ -89,7 +89,7 @@ const glyphs = {
   ),
 };
 
-export default function Icon({ name, size = 20, color = 'currentColor' }) {
+export default function Icon({ name, size = 20, color = 'currentColor', strokeWidth = 1.5 }) {
   const glyph = glyphs[name];
   if (!glyph) return null;
   return (
@@ -99,7 +99,7 @@ export default function Icon({ name, size = 20, color = 'currentColor' }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
       xmlns="http://www.w3.org/2000/svg"

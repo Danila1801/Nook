@@ -1,0 +1,157 @@
+.ritual-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ritual-canvas-light {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+.ritual-canvas-dark {
+  background: var(--ink-deep);
+  color: #ffffff;
+}
+
+.ritual-canvas-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 24px 0 24px;
+  flex-shrink: 0;
+}
+
+.ritual-canvas-close {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.ritual-canvas-light .ritual-canvas-close {
+  color: var(--soft-ink);
+}
+
+.ritual-canvas-light .ritual-canvas-close:hover {
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.ritual-canvas-dark .ritual-canvas-close {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.ritual-canvas-dark .ritual-canvas-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ritual-canvas-eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.ritual-canvas-light .ritual-canvas-eyebrow {
+  color: var(--soft-ink);
+}
+
+.ritual-canvas-dark .ritual-canvas-eyebrow {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.ritual-canvas-top-progress {
+  width: 100%;
+  height: 1px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.ritual-canvas-top-progress-active {
+  opacity: 1;
+}
+
+.ritual-canvas-light .ritual-canvas-top-progress {
+  background: var(--border);
+}
+
+.ritual-canvas-dark .ritual-canvas-top-progress {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ritual-canvas-top-progress-fill {
+  height: 100%;
+  transition: width 0.5s linear;
+}
+
+.ritual-canvas-light .ritual-canvas-top-progress-fill {
+  background: var(--soft-ink);
+}
+
+.ritual-canvas-dark .ritual-canvas-top-progress-fill {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.ritual-canvas-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.ritual-canvas-bottom-bar {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 24px 40px 24px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.ritual-canvas-bottom-progress {
+  width: 100%;
+  height: 2px;
+  flex-shrink: 0;
+}
+
+.ritual-canvas-light .ritual-canvas-bottom-progress {
+  background: var(--border);
+}
+
+.ritual-canvas-dark .ritual-canvas-bottom-progress {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ritual-canvas-bottom-progress-fill {
+  height: 100%;
+  transition: width 0.5s linear;
+}
+
+.ritual-canvas-light .ritual-canvas-bottom-progress-fill {
+  background: var(--soft-ink);
+}
+
+.ritual-canvas-dark .ritual-canvas-bottom-progress-fill {
+  background: rgba(255, 255, 255, 0.7);
+}

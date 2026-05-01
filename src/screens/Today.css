@@ -67,6 +67,16 @@
   filter: brightness(0.99);
 }
 
+.today-upnext-passive {
+  box-shadow: none;
+  cursor: default;
+  opacity: 0.7;
+}
+
+.today-upnext-passive:hover {
+  filter: none;
+}
+
 .today-upnext-body {
   flex: 1;
   display: flex;

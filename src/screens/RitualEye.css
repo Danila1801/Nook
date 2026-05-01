@@ -1,87 +1,41 @@
-.ritual-eye {
-  position: fixed;
-  inset: 0;
-  background: var(--canvas);
-  color: var(--ink);
-  display: flex;
-  flex-direction: column;
-  z-index: 100;
-  overflow: hidden;
-}
-
-.ritual-eye-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-}
-
-.ritual-eye-close {
-  background: transparent;
-  border: none;
-  padding: 6px;
-  cursor: pointer;
-  color: var(--ink);
+.ritual-eye-orb {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  animation: ritualEyeBreathe var(--eye-step-duration, 30s) ease-in-out infinite;
+  will-change: transform;
 }
 
-.ritual-eye-close:hover {
-  color: var(--muted-ink);
-}
-
-.ritual-eye-eyebrow {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  color: var(--soft-ink);
-}
-
-.ritual-eye-center {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0 24px;
+@keyframes ritualEyeBreathe {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
 }
 
 .ritual-eye-instruction {
-  margin: 32px 0 0 0;
+  margin: 48px 0 0 0;
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
-  font-size: 26px;
-  line-height: 1.3;
+  font-size: 34px;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
   color: var(--ink);
   text-align: center;
-  max-width: 380px;
+  max-width: 420px;
+}
+
+@media (min-width: 720px) {
+  .ritual-eye-instruction {
+    font-size: 40px;
+  }
 }
 
 .ritual-eye-countdown {
-  margin-top: 16px;
-  font-family: var(--font-mono);
+  margin-top: 28px;
+  font-family: var(--font-display);
+  font-style: italic;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 32px;
+  line-height: 1;
   color: var(--soft-ink);
-}
-
-.ritual-eye-bottom {
-  padding: 24px;
-}
-
-.ritual-eye-progress {
-  width: 100%;
-  height: 2px;
-  background: var(--border);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.ritual-eye-progress-fill {
-  height: 100%;
-  background: var(--soft-ink);
-  transition: width 1s linear;
+  text-align: center;
 }

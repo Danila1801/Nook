@@ -103,9 +103,17 @@ export default function Today() {
     upNextLine = t('today.beforeWorkLine');
   } else if (nextPause) {
     const minsUntil = minutesUntil(nextPause.time, now);
-    const tail = minsUntil <= 0
-      ? t('today.now')
-      : `${t('today.inMin')} ${minsUntil} ${t('today.minShort')}`;
+    let tail;
+    if (minsUntil <= 0) {
+      tail = t('today.now');
+    } else if (minsUntil >= 60) {
+      const h = Math.floor(minsUntil / 60);
+      const m = minsUntil % 60;
+      const compact = m === 0 ? `${h}h` : `${h}h ${m}m`;
+      tail = `${t('today.inMin')} ${compact}`;
+    } else {
+      tail = `${t('today.inMin')} ${minsUntil} ${t('today.minShort')}`;
+    }
     upNextEyebrow = `${t('today.upNext')} · ${tail}`;
     upNextName = t(`rituals.${nextPause.ritualKey}.name`);
     upNextLine = t(`rituals.${nextPause.ritualKey}.line`);

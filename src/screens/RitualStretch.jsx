@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Icon from '../components/Icon.jsx';
 import Figure from '../components/Figure.jsx';
+import RitualCanvas from '../components/RitualCanvas.jsx';
 import Completion from './Completion.jsx';
 import { getStretchSequence } from '../lib/rituals/stretchSequences.js';
 import { logCompletion } from '../lib/rituals/completions.js';
@@ -78,19 +78,33 @@ export default function RitualStretch() {
     setElapsedInStep(0);
   };
 
+  const elapsedTotal =
+    sequence.steps.slice(0, stepIndex).reduce((s, x) => s + x.seconds, 0) + elapsedInStep;
+  const topFraction = elapsedTotal / sequence.totalSeconds;
+
+  const bottomBar = (
+    <div className="ritual-stretch-bottom">
+      <button
+        type="button"
+        className="ritual-stretch-pause"
+        onClick={() => setIsPaused((p) => !p)}
+      >
+        {isPaused ? t('ritualPlayer.resume') : t('ritualPlayer.pause')}
+      </button>
+      <button type="button" className="ritual-stretch-next" onClick={handleNext}>
+        {isLastStep ? t('ritualPlayer.finish') : t('ritualPlayer.nextStep')}
+      </button>
+    </div>
+  );
+
   return (
-    <div className="ritual-stretch">
-      <div className="ritual-stretch-top">
-        <button
-          type="button"
-          className="ritual-stretch-close"
-          aria-label={t('ritualPlayer.closeAria')}
-          onClick={() => navigate(-1)}
-        >
-          <Icon name="x-close" size={20} />
-        </button>
-        <span className="ritual-stretch-eyebrow">{eyebrow}</span>
-      </div>
+    <RitualCanvas
+      mode="light"
+      eyebrow={eyebrow}
+      onClose={() => navigate(-1)}
+      topProgress={topFraction}
+      bottomBar={bottomBar}
+    >
       <div className="ritual-stretch-step-indicator">
         {t('ritualPlayer.step')} {stepIndex + 1} {t('ritualPlayer.of')} {sequence.steps.length}
       </div>
@@ -101,7 +115,7 @@ export default function RitualStretch() {
       <div className="ritual-stretch-figure">
         <Figure figureKey={step.figureKey} size={240} />
       </div>
-      <div className="ritual-stretch-hold">
+      <div className="ritual-stretch-hold-card">
         <div className="ritual-stretch-hold-bar">
           <div
             className="ritual-stretch-hold-bar-fill"
@@ -112,18 +126,6 @@ export default function RitualStretch() {
           {holdWord} {remainingInStep} {secondsWord}
         </div>
       </div>
-      <div className="ritual-stretch-bottom">
-        <button
-          type="button"
-          className="ritual-stretch-pause"
-          onClick={() => setIsPaused((p) => !p)}
-        >
-          {isPaused ? t('ritualPlayer.resume') : t('ritualPlayer.pause')}
-        </button>
-        <button type="button" className="ritual-stretch-next" onClick={handleNext}>
-          {isLastStep ? t('ritualPlayer.finish') : t('ritualPlayer.nextStep')}
-        </button>
-      </div>
-    </div>
+    </RitualCanvas>
   );
 }

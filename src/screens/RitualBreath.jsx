@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Orb from '../components/Orb.jsx';
-import Icon from '../components/Icon.jsx';
+import RitualCanvas from '../components/RitualCanvas.jsx';
 import Completion from './Completion.jsx';
 import { getBreathPattern } from '../lib/rituals/breathPatterns.js';
 import { logCompletion } from '../lib/rituals/completions.js';
@@ -38,7 +38,6 @@ export default function RitualBreath() {
   const [elapsed, setElapsed] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const startedRef = useRef(false);
   const loggedRef = useRef(false);
 
   useEffect(() => {
@@ -71,12 +70,6 @@ export default function RitualBreath() {
   const { phase, secondsIntoPhase } = getPhaseAt(elapsed, pattern.phases);
   const secondsRemainingInPhase = Math.max(0, phase.seconds - Math.floor(secondsIntoPhase));
 
-  // Once we have a real phase, mark started so the orb can animate from neutral
-  useEffect(() => {
-    if (!startedRef.current) startedRef.current = true;
-  }, []);
-
-  const progressPct = Math.min(100, (elapsed / pattern.totalSeconds) * 100);
   const totalMin = Math.round(pattern.totalSeconds / 60);
   const eyebrow = `${t(`rituals.${ritualKey}.name`)} · ${totalMin} ${t('ritualPlayer.minLabel').toUpperCase()}`;
 
@@ -89,23 +82,23 @@ export default function RitualBreath() {
     '--orb-duration': `${phase.seconds}s`,
   };
 
+  const progressFraction = elapsed / pattern.totalSeconds;
+
   return (
-    <div className="ritual-breath">
-      <div className="ritual-breath-top">
+    <RitualCanvas
+      mode="dark"
+      eyebrow={eyebrow}
+      onClose={() => navigate(-1)}
+      bottomProgress={progressFraction}
+    >
+      <div className="ritual-breath-orb-stack">
+        <span
+          className={`ritual-breath-orb-glow${isPaused ? ' ritual-breath-orb-glow-paused' : ''}`}
+          aria-hidden="true"
+        />
         <button
           type="button"
-          className="ritual-breath-close"
-          aria-label={t('ritualPlayer.closeAria')}
-          onClick={() => navigate(-1)}
-        >
-          <Icon name="x-close" size={20} />
-        </button>
-        <span className="ritual-breath-eyebrow">{eyebrow}</span>
-      </div>
-      <div className="ritual-breath-center">
-        <button
-          type="button"
-          className="ritual-breath-orb-wrap"
+          className="ritual-breath-orb-button"
           onClick={() => setIsPaused((p) => !p)}
           aria-label={isPaused ? t('ritualPlayer.resume') : t('ritualPlayer.pause')}
         >
@@ -116,19 +109,14 @@ export default function RitualBreath() {
             <Orb size={280} mode="dark" />
           </span>
         </button>
-        <div className={`ritual-breath-phase${isPaused ? ' ritual-breath-phase-paused' : ''}`}>
-          {t(`ritualPlayer.phases.${phase.label}`)}
-        </div>
-        <div className="ritual-breath-phase-seconds">{secondsRemainingInPhase}</div>
       </div>
-      <div className="ritual-breath-bottom">
-        <div className="ritual-breath-progress">
-          <div className="ritual-breath-progress-fill" style={{ width: `${progressPct}%` }} />
-        </div>
-        <div className="ritual-breath-time">
-          {formatClock(elapsed)} / {formatClock(pattern.totalSeconds)}
-        </div>
+      <div className={`ritual-breath-phase${isPaused ? ' ritual-breath-phase-paused' : ''}`}>
+        {t(`ritualPlayer.phases.${phase.label}`)}
       </div>
-    </div>
+      <div className="ritual-breath-phase-seconds">{secondsRemainingInPhase}</div>
+      <div className="ritual-breath-time">
+        {formatClock(elapsed)} / {formatClock(pattern.totalSeconds)}
+      </div>
+    </RitualCanvas>
   );
 }

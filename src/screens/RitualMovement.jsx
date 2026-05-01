@@ -1,11 +1,32 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Icon from '../components/Icon.jsx';
+import RitualCanvas from '../components/RitualCanvas.jsx';
 import Completion from './Completion.jsx';
 import { getMovementSequence } from '../lib/rituals/movementSequences.js';
 import { logCompletion } from '../lib/rituals/completions.js';
 import { t } from '../lib/i18n/index.js';
 import './RitualMovement.css';
+
+function SpineMotif() {
+  return (
+    <svg
+      width="40"
+      height="200"
+      viewBox="0 0 40 200"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <circle cx="20" cy="14" r="4" fill="currentColor" stroke="none" />
+      <path d="M 20 22 V 178" />
+      <circle cx="20" cy="186" r="4" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
 
 export default function RitualMovement() {
   const navigate = useNavigate();
@@ -62,6 +83,10 @@ export default function RitualMovement() {
   const eyebrow = `${t('ritualPlayer.typeLabels.move').toUpperCase()} · ${totalMin} ${t('ritualPlayer.minLabel').toUpperCase()}`;
   const remainingInStep = Math.max(0, step.seconds - elapsedInStep);
 
+  const elapsedTotal =
+    sequence.steps.slice(0, stepIndex).reduce((s, x) => s + x.seconds, 0) + elapsedInStep;
+  const topFraction = elapsedTotal / sequence.totalSeconds;
+
   const handleNext = () => {
     if (isLastStep) {
       setIsComplete(true);
@@ -71,40 +96,39 @@ export default function RitualMovement() {
     setElapsedInStep(0);
   };
 
-  return (
-    <div className="ritual-movement">
-      <div className="ritual-movement-top">
-        <button
-          type="button"
-          className="ritual-movement-close"
-          aria-label={t('ritualPlayer.closeAria')}
-          onClick={() => navigate(-1)}
-        >
-          <Icon name="x-close" size={20} />
-        </button>
-        <span className="ritual-movement-eyebrow">{eyebrow}</span>
-      </div>
-      <div className="ritual-movement-center">
-        <span className="ritual-movement-step-indicator">
-          {t('ritualPlayer.step')} {stepIndex + 1} {t('ritualPlayer.of')} {sequence.steps.length}
-        </span>
-        <p className="ritual-movement-instruction">
-          {t(`ritualPlayer.instructions.${step.instructionKey}`)}
-        </p>
-        <div className="ritual-movement-countdown">{remainingInStep}</div>
-      </div>
-      <div className="ritual-movement-bottom">
-        <button
-          type="button"
-          className="ritual-movement-pause"
-          onClick={() => setIsPaused((p) => !p)}
-        >
-          {isPaused ? t('ritualPlayer.resume') : t('ritualPlayer.pause')}
-        </button>
-        <button type="button" className="ritual-movement-next" onClick={handleNext}>
-          {isLastStep ? t('ritualPlayer.finish') : t('ritualPlayer.nextStep')}
-        </button>
-      </div>
+  const bottomBar = (
+    <div className="ritual-movement-bottom">
+      <button
+        type="button"
+        className="ritual-movement-pause"
+        onClick={() => setIsPaused((p) => !p)}
+      >
+        {isPaused ? t('ritualPlayer.resume') : t('ritualPlayer.pause')}
+      </button>
+      <button type="button" className="ritual-movement-next" onClick={handleNext}>
+        {isLastStep ? t('ritualPlayer.finish') : t('ritualPlayer.nextStep')}
+      </button>
     </div>
+  );
+
+  return (
+    <RitualCanvas
+      mode="light"
+      eyebrow={eyebrow}
+      onClose={() => navigate(-1)}
+      topProgress={topFraction}
+      bottomBar={bottomBar}
+    >
+      <span className="ritual-movement-step-indicator">
+        {t('ritualPlayer.step')} {stepIndex + 1} {t('ritualPlayer.of')} {sequence.steps.length}
+      </span>
+      <span className="ritual-movement-spine">
+        <SpineMotif />
+      </span>
+      <p className="ritual-movement-instruction">
+        {t(`ritualPlayer.instructions.${step.instructionKey}`)}
+      </p>
+      <div className="ritual-movement-countdown">{remainingInStep}</div>
+    </RitualCanvas>
   );
 }

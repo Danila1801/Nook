@@ -27,7 +27,7 @@ export default function Library() {
                   className="library-category-icon"
                   style={{ background: accentVar(cat.accent) }}
                 >
-                  <Icon name={cat.iconKey} size={22} color="#ffffff" />
+                  <Icon name={cat.iconKey} size={24} color="#ffffff" strokeWidth={2} />
                 </span>
                 <span className="library-category-body">
                   <span className="library-category-name">
