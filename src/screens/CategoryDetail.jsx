@@ -28,7 +28,7 @@ export default function CategoryDetail() {
   const ritualPath = CATEGORY_TO_RITUAL_PATH[category.key] || '/ritual/breath';
 
   return (
-    <div className="category-detail">
+    <div className="category-detail screen-mount">
       <main className="category-detail-main">
         <button
           type="button"

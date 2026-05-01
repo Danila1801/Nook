@@ -116,7 +116,7 @@ export default function Progress() {
 
   if (isEmpty) {
     return (
-      <div className="progress">
+      <div className="progress screen-mount">
         <main className="progress-main">
           <div className="progress-eyebrow">{t('progress.thisWeek').toUpperCase()}</div>
           <div className="progress-empty">
@@ -139,7 +139,7 @@ export default function Progress() {
   const observations = generateObservations(week);
 
   return (
-    <div className="progress">
+    <div className="progress screen-mount">
       <main className="progress-main">
         <div className="progress-eyebrow">{t('progress.thisWeek').toUpperCase()}</div>
         <h1 className="progress-headline">

@@ -9,7 +9,7 @@ export default function Library() {
   const navigate = useNavigate();
 
   return (
-    <div className="library">
+    <div className="library screen-mount">
       <main className="library-main">
         <h1 className="library-headline">
           <span className="library-headline-line">{t('library.heading')}</span>

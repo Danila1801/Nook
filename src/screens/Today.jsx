@@ -139,7 +139,7 @@ export default function Today() {
   );
 
   return (
-    <div className="today">
+    <div className="today screen-mount">
       <main className="today-main">
         <div className="today-header">
           <span className="today-date">{formatDateLabel(now)}</span>
@@ -167,9 +167,11 @@ export default function Today() {
 
         <div className="today-rhythm">
           <span className="today-rhythm-eyebrow">
-            {t('today.ritualsLabel')}
-            {' · '}
-            {doneCount} {t('today.doneOf')} {total} {t('today.done')}
+            {beforeWork && doneCount === 0
+              ? t('today.readyWhenYouAre')
+              : doneCount === 0
+              ? `${t('today.ritualsLabel')} · ${total} ${t('today.planned')}`
+              : `${t('today.ritualsLabel')} · ${doneCount} ${t('today.doneOf')} ${total} ${t('today.done')}`}
           </span>
           <ul className="today-pauses">
             {pauses.map((p, i) => {

@@ -63,6 +63,49 @@ export const BREATH_PATTERNS = {
       { label: 'out', seconds: 8, orbScale: 0.5 },
     ],
   },
+  oneBreathReset: {
+    totalSeconds: 60,
+    phases: [
+      { label: 'in', seconds: 6, orbScale: 1.0 },
+      { label: 'hold', seconds: 2, orbScale: 1.0 },
+      { label: 'out', seconds: 8, orbScale: 0.5 },
+    ],
+  },
+  noticeFiveThings: {
+    totalSeconds: 120,
+    phases: [
+      { label: 'in', seconds: 5, orbScale: 1.0 },
+      { label: 'out', seconds: 5, orbScale: 0.5 },
+    ],
+  },
+  gratitudeMoment: {
+    totalSeconds: 120,
+    phases: [
+      { label: 'in', seconds: 4, orbScale: 1.0 },
+      { label: 'out', seconds: 6, orbScale: 0.5 },
+    ],
+  },
+  softGazeMeditation: {
+    totalSeconds: 180,
+    phases: [
+      { label: 'in', seconds: 5, orbScale: 1.0 },
+      { label: 'out', seconds: 5, orbScale: 0.5 },
+    ],
+  },
+  bodyScanShort: {
+    totalSeconds: 240,
+    phases: [
+      { label: 'in', seconds: 4, orbScale: 1.0 },
+      { label: 'out', seconds: 6, orbScale: 0.5 },
+    ],
+  },
+  intentionSetting: {
+    totalSeconds: 120,
+    phases: [
+      { label: 'in', seconds: 5, orbScale: 1.0 },
+      { label: 'out', seconds: 5, orbScale: 0.5 },
+    ],
+  },
 };
 
 export function getBreathPattern(ritualKey) {

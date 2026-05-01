@@ -64,7 +64,7 @@ export default function FocusAreas() {
   const canContinue = selected.length > 0;
 
   return (
-    <main className="focus">
+    <main className="focus screen-mount">
       <button
         type="button"
         className="focus-back"

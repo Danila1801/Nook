@@ -102,6 +102,8 @@ export const en = {
     beforeWorkEyebrow: "Before work",
     beforeWorkName: "Soon",
     beforeWorkLine: "Your day starts soon.",
+    readyWhenYouAre: "Ready when you are",
+    planned: "planned",
     ritualTypes: {
       breath: "Breath",
       stretch: "Stretch",

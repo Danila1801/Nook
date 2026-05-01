@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Orb from '../components/Orb.jsx';
 import { load, save } from '../lib/storage/index.js';
@@ -7,6 +8,15 @@ import './Welcome.css';
 export default function Welcome() {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const focus = load('focus.selected', null);
+    const rhythm = load('rhythm.settings', null);
+    const onboarded = load('onboarded.at', null);
+    if (focus && rhythm && onboarded) {
+      navigate('/today', { replace: true });
+    }
+  }, [navigate]);
+
   const handleBegin = () => {
     if (load('onboarded.at', null) === null) {
       save('onboarded.at', new Date().toISOString());
@@ -15,7 +25,7 @@ export default function Welcome() {
   };
 
   return (
-    <main className="welcome">
+    <main className="welcome screen-mount">
       <Orb size={112} />
       <div className="welcome-headline">
         <span className="welcome-headline-line">{t('welcome.headingPrefix')}</span>

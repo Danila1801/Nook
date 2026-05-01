@@ -45,7 +45,7 @@ export default function You() {
     : 1;
 
   return (
-    <div className="you">
+    <div className="you screen-mount">
       <main className="you-main">
         <div className="you-profile">
           <div className="you-avatar">

@@ -36,3 +36,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@keyframes screen-mount-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.screen-mount {
+  animation: screen-mount-fade 280ms ease-out;
+}

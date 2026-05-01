@@ -81,7 +81,7 @@ export default function Rhythm() {
   const sliderBackground = `linear-gradient(to right, var(--accent-sage) 0%, var(--accent-sage) ${fillPercent}%, var(--border) ${fillPercent}%, var(--border) 100%)`;
 
   return (
-    <main className="rhythm">
+    <main className="rhythm screen-mount">
       <button
         type="button"
         className="rhythm-back"

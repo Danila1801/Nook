@@ -124,7 +124,7 @@
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: 24px 24px 40px 24px;
+  padding: 24px 24px calc(40px + env(safe-area-inset-bottom)) 24px;
   box-sizing: border-box;
   flex-shrink: 0;
 }
