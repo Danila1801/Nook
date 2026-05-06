@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "npm run build:icons",
+    "prebuild": "npm run build:icons && npm run build:illustrations",
     "build": "vite build",
     "build:icons": "node scripts/build-icons.mjs",
+    "build:illustrations": "node scripts/build-illustrations.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

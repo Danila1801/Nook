@@ -15,6 +15,9 @@ dist-ssr
 .env.local
 .env.*.local
 
+# Source illustration PNGs. Compressed WebPs in public/illustrations/ are committed.
+raw-illustrations/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

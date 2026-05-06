@@ -288,6 +288,16 @@ export const en = {
   notifications: {
     title: "A small pause.",
   },
+  about: {
+    back: "Back",
+    eyebrow: "About Nook",
+    heading: "Nook",
+    tagline: "for the working body.",
+    p1: "Nook is a quiet companion for people whose work weighs on their body. Knowledge workers, makers, anyone who spends long stretches in chairs or repetitive postures.",
+    p2: "Pauses arrive shaped around your day. Breath, stretch, a moment for tired eyes, a small mental reset. Nothing pushy. No streaks to break, no badges to chase.",
+    p3: "Built by a father and son. With care.",
+    footer: "version 0.1 · made in 2026",
+  },
   nav: {
     today: "Today",
     library: "Library",

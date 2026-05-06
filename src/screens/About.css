@@ -1,0 +1,89 @@
+.about {
+  min-height: 100vh;
+  background: var(--canvas);
+  display: flex;
+  flex-direction: column;
+  padding: 48px 24px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 720px) {
+  .about {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+.about-back {
+  align-self: flex-start;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--soft-ink);
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.about-back:hover {
+  color: var(--muted-ink);
+}
+
+.about-eyebrow {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--soft-ink);
+}
+
+.about-heading {
+  margin: 24px 0 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -1px;
+  color: var(--ink);
+}
+
+.about-tagline {
+  margin: 4px 0 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+  color: var(--muted-ink);
+}
+
+.about-body {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.about-paragraph {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.about-footer {
+  margin-top: auto;
+  padding-top: 48px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--soft-ink);
+}

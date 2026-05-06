@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav.jsx';
 import Icon from '../components/Icon.jsx';
@@ -23,7 +23,7 @@ const PREFS_DEFAULTS = {
   language: 'en',
   userName: '',
 };
-const LANGUAGE_CYCLE = ['en', 'ru', 'ro', 'nl'];
+const LANGUAGE_CYCLE = ['en', 'ru'];
 const SOUND_CYCLE = ['bowl', 'none'];
 const DARK_CYCLE = ['auto', 'on', 'off'];
 
@@ -37,6 +37,16 @@ export default function You() {
   const rhythm = load('rhythm.settings', RHYTHM_DEFAULTS);
   const focusSelected = load('focus.selected', []);
   const [prefs, setPrefs] = useState(() => ({ ...PREFS_DEFAULTS, ...load('prefs', {}) }));
+
+  useEffect(() => {
+    if (!LANGUAGE_CYCLE.includes(prefs.language)) {
+      const next = { ...prefs, language: 'en' };
+      setPrefs(next);
+      save('prefs', next);
+      setLocale('en');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const updatePref = (key, value) => {
     const next = { ...prefs, [key]: value };
@@ -282,7 +292,7 @@ export default function You() {
             <button
               type="button"
               className="you-row"
-              onClick={() => console.log('about-nook')}
+              onClick={() => navigate('/about')}
             >
               <span className="you-row-label">{t('you.about')}</span>
               <span className="you-row-chevron">

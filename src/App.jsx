@@ -15,6 +15,7 @@ import RitualMovement from './screens/RitualMovement.jsx';
 import RitualMind from './screens/RitualMind.jsx';
 import Progress from './screens/Progress.jsx';
 import You from './screens/You.jsx';
+import About from './screens/About.jsx';
 
 export default function App() {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ export default function App() {
       <Route path="/ritual/mind" element={<RitualMind />} />
       <Route path="/progress" element={<Progress />} />
       <Route path="/you" element={<You />} />
+      <Route path="/about" element={<About />} />
     </Routes>
   );
 }
