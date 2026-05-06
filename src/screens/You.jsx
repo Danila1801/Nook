@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav.jsx';
 import Icon from '../components/Icon.jsx';
 import { load, save } from '../lib/storage/index.js';
-import { t } from '../lib/i18n/index.js';
+import { t, pluralKey, setLocale } from '../lib/i18n/index.js';
 import {
   isNotificationSupported,
   getPermissionState,
@@ -91,8 +91,12 @@ export default function You() {
 
   const onboardedAt = load('onboarded.at', null);
   const daysWithNook = onboardedAt
-    ? Math.max(1, Math.floor((Date.now() - new Date(onboardedAt).getTime()) / 86400000))
-    : 1;
+    ? Math.floor((Date.now() - new Date(onboardedAt).getTime()) / 86400000)
+    : 0;
+  const subtitle =
+    daysWithNook === 0
+      ? t('you.lessThanADay')
+      : t(pluralKey('you.days', daysWithNook), { count: daysWithNook });
 
   return (
     <div className="you screen-mount">
@@ -102,7 +106,7 @@ export default function You() {
             <span className="you-avatar-letter">{t('you.placeholderInitial')}</span>
           </div>
           <h1 className="you-name">{t('you.placeholderName')}</h1>
-          <p className="you-subtitle">{t('you.withNookFor', { days: daysWithNook })}</p>
+          <p className="you-subtitle">{subtitle}</p>
         </div>
 
         <section className="you-section">
@@ -187,17 +191,15 @@ export default function You() {
                 {notificationsValueLabel()}
               </span>
             </button>
-            {import.meta.env.DEV && (
-              <button
-                type="button"
-                className="you-row you-row-ghost"
-                onClick={fireTestNotification}
-              >
-                <span className="you-row-label you-row-label-ghost">
-                  {t('you.testNotification')}
-                </span>
-              </button>
-            )}
+            <button
+              type="button"
+              className="you-row you-row-ghost"
+              onClick={fireTestNotification}
+            >
+              <span className="you-row-label you-row-label-ghost">
+                {t('you.trySample')}
+              </span>
+            </button>
             <button
               type="button"
               className="you-row"
@@ -219,7 +221,12 @@ export default function You() {
             <button
               type="button"
               className="you-row"
-              onClick={() => updatePref('language', nextInCycle(LANGUAGE_CYCLE, prefs.language))}
+              onClick={() => {
+                const next = nextInCycle(LANGUAGE_CYCLE, prefs.language);
+                updatePref('language', next);
+                setLocale(next);
+                window.location.reload();
+              }}
             >
               <span className="you-row-label">{t('you.language')}</span>
               <span className="you-row-value">{t(`you.languages.${prefs.language}`)}</span>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { t } from '../lib/i18n/index.js';
+import { t, getLocale } from '../lib/i18n/index.js';
 import { load } from '../lib/storage/index.js';
 import { buildPausesForToday } from '../lib/rhythm/engine.js';
 import { scheduleNotificationsForToday } from '../lib/notifications/index.js';
@@ -23,16 +23,18 @@ const TYPE_TO_RITUAL_PATH = {
   movement: '/ritual/movement',
 };
 
-const WEEKDAYS = [
-  'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY',
-];
-const MONTHS = [
-  'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-  'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
-];
-
 function formatDateLabel(date) {
-  return `${WEEKDAYS[date.getDay()]} · ${MONTHS[date.getMonth()]} ${date.getDate()}`;
+  const locale = getLocale();
+  let weekday;
+  let month;
+  try {
+    weekday = new Intl.DateTimeFormat(locale, { weekday: 'long' }).format(date);
+    month = new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
+  } catch {
+    weekday = date.toDateString().split(' ')[0];
+    month = date.toDateString().split(' ')[1];
+  }
+  return `${weekday.toLocaleUpperCase(locale)} · ${month.toLocaleUpperCase(locale)} ${date.getDate()}`;
 }
 
 function minutesUntil(timeHHMM, now) {

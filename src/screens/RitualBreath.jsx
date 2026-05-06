@@ -36,7 +36,6 @@ export default function RitualBreath() {
   const pattern = useMemo(() => getBreathPattern(ritualKey), [ritualKey]);
 
   const [elapsed, setElapsed] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const loggedRef = useRef(false);
 
@@ -54,7 +53,6 @@ export default function RitualBreath() {
   useEffect(() => {
     const id = setInterval(() => {
       setElapsed((prev) => {
-        if (isPaused) return prev;
         const next = prev + 1;
         if (next >= pattern.totalSeconds) {
           clearInterval(id);
@@ -65,7 +63,7 @@ export default function RitualBreath() {
       });
     }, 1000);
     return () => clearInterval(id);
-  }, [isPaused, pattern.totalSeconds]);
+  }, [pattern.totalSeconds]);
 
   const { phase, secondsIntoPhase } = getPhaseAt(elapsed, pattern.phases);
   const secondsRemainingInPhase = Math.max(0, phase.seconds - Math.floor(secondsIntoPhase));
@@ -91,26 +89,15 @@ export default function RitualBreath() {
       onClose={() => navigate(-1)}
       bottomProgress={progressFraction}
     >
-      <div className="ritual-breath-orb-stack">
-        <span
-          className={`ritual-breath-orb-glow${isPaused ? ' ritual-breath-orb-glow-paused' : ''}`}
-          aria-hidden="true"
-        />
-        <button
-          type="button"
-          className="ritual-breath-orb-button"
-          onClick={() => setIsPaused((p) => !p)}
-          aria-label={isPaused ? t('ritualPlayer.resume') : t('ritualPlayer.pause')}
-        >
-          <span
-            className={`ritual-breath-orb${isPaused ? ' ritual-breath-orb-paused' : ''}`}
-            style={orbStyle}
-          >
+      <div className="ritual-breath-orb-stack" aria-hidden="true">
+        <span className="ritual-breath-orb-glow" />
+        <span className="ritual-breath-orb-wrap">
+          <span className="ritual-breath-orb" style={orbStyle}>
             <Orb size={280} mode="dark" />
           </span>
-        </button>
+        </span>
       </div>
-      <div className={`ritual-breath-phase${isPaused ? ' ritual-breath-phase-paused' : ''}`}>
+      <div className="ritual-breath-phase">
         {t(`ritualPlayer.phases.${phase.label}`)}
       </div>
       <div className="ritual-breath-phase-seconds">{secondsRemainingInPhase}</div>

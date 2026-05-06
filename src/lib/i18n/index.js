@@ -45,3 +45,18 @@ export function t(key, params) {
   if (value === undefined) return key;
   return interpolate(value, params);
 }
+
+export function pluralKey(baseKey, count) {
+  let category = 'other';
+  try {
+    category = new Intl.PluralRules(activeLocale).select(count);
+  } catch {
+    category = count === 1 ? 'one' : 'other';
+  }
+  const suffix =
+    category === 'one' ? 'One' :
+    category === 'few' ? 'Few' :
+    category === 'many' ? 'Many' :
+    'Many';
+  return baseKey + suffix;
+}

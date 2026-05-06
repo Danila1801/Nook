@@ -64,7 +64,7 @@ export const BREATH_PATTERNS = {
     ],
   },
   oneBreathReset: {
-    totalSeconds: 60,
+    totalSeconds: 30,
     phases: [
       { label: 'in', seconds: 6, orbScale: 1.0 },
       { label: 'hold', seconds: 2, orbScale: 1.0 },

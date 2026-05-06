@@ -19,9 +19,9 @@ export const CATEGORIES = [
     accent: 'sage',
     iconKey: 'neck-shoulders',
     rituals: [
-      { key: 'shouldersAndNeck', durationMin: 5 },
-      { key: 'hipOpener', durationMin: 6 },
-      { key: 'lowerBackRelease', durationMin: 4 },
+      { key: 'shouldersAndNeck', durationMin: 3 },
+      { key: 'hipOpener', durationMin: 4 },
+      { key: 'lowerBackRelease', durationMin: 3 },
       { key: 'chestOpener', durationMin: 3 },
       { key: 'wristAndForearm', durationMin: 2 },
       { key: 'standingForwardFold', durationMin: 3 },
@@ -42,8 +42,8 @@ export const CATEGORIES = [
     rituals: [
       { key: 'lookFarAway', durationMin: 1 },
       { key: 'twentyTwentyTwenty', durationMin: 1 },
-      { key: 'palming', durationMin: 2 },
-      { key: 'figureEightTracking', durationMin: 2 },
+      { key: 'palming', durationMin: 1 },
+      { key: 'figureEightTracking', durationMin: 1 },
     ],
   },
   {
