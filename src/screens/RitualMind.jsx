@@ -4,6 +4,7 @@ import RitualCanvas from '../components/RitualCanvas.jsx';
 import Completion from './Completion.jsx';
 import { getMindSequence } from '../lib/rituals/mindSequences.js';
 import { logCompletion } from '../lib/rituals/completions.js';
+import { playSingingBowl } from '../lib/audio/index.js';
 import { t } from '../lib/i18n/index.js';
 import './RitualMind.css';
 
@@ -22,6 +23,7 @@ export default function RitualMind() {
   const [elapsed, setElapsed] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const loggedRef = useRef(false);
+  const chimedRef = useRef(false);
 
   useEffect(() => {
     if (isComplete && !loggedRef.current) {
@@ -48,6 +50,15 @@ export default function RitualMind() {
     }, 1000);
     return () => clearInterval(id);
   }, [sequence.totalSeconds]);
+
+  useEffect(() => {
+    if (ritualKey !== 'quietSit') return;
+    if (chimedRef.current) return;
+    if (elapsed >= sequence.totalSeconds - 5 && elapsed < sequence.totalSeconds) {
+      chimedRef.current = true;
+      playSingingBowl(0.6);
+    }
+  }, [elapsed, ritualKey, sequence.totalSeconds]);
 
   if (isComplete) {
     return <Completion type="mind" onClose={() => navigate('/today')} />;

@@ -63,6 +63,13 @@ export const BREATH_PATTERNS = {
       { label: 'out', seconds: 8, orbScale: 0.5 },
     ],
   },
+  oneBreathReset: {
+    totalSeconds: 30,
+    phases: [
+      { label: 'in', seconds: 12, orbScale: 1.0 },
+      { label: 'out', seconds: 18, orbScale: 0.5 },
+    ],
+  },
 };
 
 export function getBreathPattern(ritualKey) {

@@ -12,6 +12,7 @@ export const CATEGORIES = [
       { key: 'alternateNostril', durationMin: 4 },
       { key: 'easeIntoTheDay', durationMin: 2 },
       { key: 'windDownBreath', durationMin: 3 },
+      { key: 'oneBreathReset', durationMin: 1 },
     ],
   },
   {
@@ -44,6 +45,7 @@ export const CATEGORIES = [
       { key: 'twentyTwentyTwenty', durationMin: 1 },
       { key: 'palming', durationMin: 1 },
       { key: 'figureEightTracking', durationMin: 1 },
+      { key: 'softGazeMeditation', durationMin: 2 },
     ],
   },
   {
@@ -67,12 +69,14 @@ export const CATEGORIES = [
     accent: 'slate-blue',
     iconKey: 'mind-card',
     rituals: [
-      { key: 'oneBreathReset', durationMin: 1 },
-      { key: 'noticeFiveThings', durationMin: 2 },
-      { key: 'gratitudeMoment', durationMin: 2 },
-      { key: 'softGazeMeditation', durationMin: 3 },
-      { key: 'bodyScanShort', durationMin: 4 },
       { key: 'intentionSetting', durationMin: 2 },
+      { key: 'quietSit', durationMin: 2 },
+      { key: 'nameItToTameIt', durationMin: 2 },
+      { key: 'selfCompassionBreak', durationMin: 2 },
+      { key: 'leavesOnAStream', durationMin: 2 },
+      { key: 'reframe', durationMin: 2 },
+      { key: 'container', durationMin: 2 },
+      { key: 'noticeFiveThings', durationMin: 2 },
     ],
   },
 ];

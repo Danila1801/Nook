@@ -34,6 +34,14 @@ export const EYE_SEQUENCES = {
       { instructionKey: 'eyeBlink', seconds: 10 },
     ],
   },
+  softGazeMeditation: {
+    totalSeconds: 90,
+    steps: [
+      { instructionKey: 'mindLetEyesRest', seconds: 30 },
+      { instructionKey: 'mindSoftenFocus', seconds: 30 },
+      { instructionKey: 'mindLetEverythingBlurry', seconds: 30 },
+    ],
+  },
 };
 
 export function getEyeSequence(ritualKey) {
