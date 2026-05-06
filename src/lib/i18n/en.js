@@ -255,6 +255,9 @@ export const en = {
     },
     cta: "Back to today",
   },
+  notifications: {
+    title: "A small pause.",
+  },
   nav: {
     today: "Today",
     library: "Library",
@@ -313,6 +316,11 @@ export const en = {
     focusAreasLabel: "Focus areas",
     preferencesLabel: "Preferences",
     gentleNotificationsLabel: "Gentle notifications",
+    notificationsCaption: "soft chimes when a pause is due.",
+    notificationsBlocked: "Blocked",
+    notificationsUnsupported: "Not supported",
+    notificationsBlockedAlert: "Notifications are blocked in your browser settings. Please enable them there.",
+    testNotification: "Send test notification",
     breathSoundsLabel: "Breath sounds",
     darkRitualViewLabel: "Dark ritual view",
     on: "On",

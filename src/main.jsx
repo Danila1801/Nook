@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
 import './styles/tokens.css';
 import App from './App.jsx';
+import { registerServiceWorker } from './lib/notifications/register.js';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -11,3 +12,7 @@ createRoot(document.getElementById('root')).render(
     </HashRouter>
   </StrictMode>,
 );
+
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  registerServiceWorker();
+}

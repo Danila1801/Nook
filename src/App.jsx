@@ -1,4 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { setupServiceWorkerMessages } from './lib/notifications/register.js';
 import Welcome from './screens/Welcome.jsx';
 import FocusAreas from './screens/FocusAreas.jsx';
 import Rhythm from './screens/Rhythm.jsx';
@@ -13,6 +15,12 @@ import Progress from './screens/Progress.jsx';
 import You from './screens/You.jsx';
 
 export default function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setupServiceWorkerMessages(navigate);
+  }, [navigate]);
+
   return (
     <Routes>
       <Route path="/" element={<Welcome />} />

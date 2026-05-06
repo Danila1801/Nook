@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { t } from '../lib/i18n/index.js';
 import { load } from '../lib/storage/index.js';
 import { buildPausesForToday } from '../lib/rhythm/engine.js';
+import { scheduleNotificationsForToday } from '../lib/notifications/index.js';
 import Orb from '../components/Orb.jsx';
 import Icon from '../components/Icon.jsx';
 import BottomNav from '../components/BottomNav.jsx';
@@ -67,6 +68,7 @@ export default function Today() {
     setSettings(loadedSettings);
     setPauses(buildPausesForToday(loadedSettings, focusAreas, initialNow));
     setReady(true);
+    scheduleNotificationsForToday();
 
     const interval = setInterval(() => {
       const tick = new Date();

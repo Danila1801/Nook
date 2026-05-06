@@ -4,11 +4,20 @@ import BottomNav from '../components/BottomNav.jsx';
 import Icon from '../components/Icon.jsx';
 import { load, save } from '../lib/storage/index.js';
 import { t } from '../lib/i18n/index.js';
+import {
+  isNotificationSupported,
+  getPermissionState,
+  isEnabled as notificationsEnabled,
+  setEnabled as setNotificationsEnabled,
+  requestPermission,
+  scheduleNotificationsForToday,
+  clearScheduledNotifications,
+  fireTestNotification,
+} from '../lib/notifications/index.js';
 import './You.css';
 
 const RHYTHM_DEFAULTS = { startTime: '09:00', endTime: '18:00', frequencyMinutes: 90 };
 const PREFS_DEFAULTS = {
-  notifications: true,
   breathSounds: 'bowl',
   darkRitualView: 'auto',
   language: 'en',
@@ -34,7 +43,48 @@ export default function You() {
     save('prefs', next);
   };
 
-  const onLabel = (b) => (b ? t('you.on') : t('you.off'));
+  const [notifState, setNotifState] = useState(() => ({
+    supported: isNotificationSupported(),
+    permission: getPermissionState(),
+    enabled: notificationsEnabled(),
+  }));
+
+  async function toggleNotifications() {
+    if (!notifState.supported) return;
+
+    if (notifState.permission === 'denied') {
+      window.alert(t('you.notificationsBlockedAlert'));
+      return;
+    }
+
+    if (notifState.permission === 'granted') {
+      if (notifState.enabled) {
+        setNotificationsEnabled(false);
+        clearScheduledNotifications();
+        setNotifState((s) => ({ ...s, enabled: false }));
+      } else {
+        setNotificationsEnabled(true);
+        scheduleNotificationsForToday();
+        setNotifState((s) => ({ ...s, enabled: true }));
+      }
+      return;
+    }
+
+    const result = await requestPermission();
+    if (result === 'granted') {
+      scheduleNotificationsForToday();
+      setNotifState({ supported: true, permission: 'granted', enabled: true });
+    } else {
+      setNotifState({ supported: true, permission: result, enabled: false });
+    }
+  }
+
+  function notificationsValueLabel() {
+    if (!notifState.supported) return t('you.notificationsUnsupported');
+    if (notifState.permission === 'denied') return t('you.notificationsBlocked');
+    return notifState.enabled ? t('you.on') : t('you.off');
+  }
+
   const soundLabel = (v) => (v === 'bowl' ? t('you.bowl') : t('you.none'));
   const darkLabel = (v) =>
     v === 'auto' ? t('you.auto') : v === 'on' ? t('you.on') : t('you.off');
@@ -120,11 +170,34 @@ export default function You() {
             <button
               type="button"
               className="you-row"
-              onClick={() => updatePref('notifications', !prefs.notifications)}
+              onClick={toggleNotifications}
             >
-              <span className="you-row-label">{t('you.gentleNotificationsLabel')}</span>
-              <span className="you-row-value">{onLabel(prefs.notifications)}</span>
+              <span className="you-row-label-stack">
+                <span className="you-row-label">{t('you.gentleNotificationsLabel')}</span>
+                {notifState.enabled && (
+                  <span className="you-row-caption">{t('you.notificationsCaption')}</span>
+                )}
+              </span>
+              <span
+                className={
+                  'you-row-value' +
+                  (notifState.enabled ? ' you-row-value-accent' : '')
+                }
+              >
+                {notificationsValueLabel()}
+              </span>
             </button>
+            {import.meta.env.DEV && (
+              <button
+                type="button"
+                className="you-row you-row-ghost"
+                onClick={fireTestNotification}
+              >
+                <span className="you-row-label you-row-label-ghost">
+                  {t('you.testNotification')}
+                </span>
+              </button>
+            )}
             <button
               type="button"
               className="you-row"

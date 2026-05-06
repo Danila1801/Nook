@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from '../lib/i18n/index.js';
 import { load, save } from '../lib/storage/index.js';
+import { scheduleNotificationsForToday } from '../lib/notifications/index.js';
 import './Rhythm.css';
 
 const STORAGE_KEY = 'rhythm.settings';
@@ -145,6 +146,7 @@ export default function Rhythm() {
         className="rhythm-continue"
         onClick={() => {
           save(STORAGE_KEY, settings);
+          scheduleNotificationsForToday();
           navigate('/today');
         }}
       >
