@@ -27,6 +27,19 @@ const glyphs = {
       <path d="M 14 6 L 20 18" />
     </>
   ),
+  'move-card': (
+    <>
+      <path d="M 5 9 H 16" />
+      <path d="M 5 12 H 19" />
+      <path d="M 8 15 H 19" />
+    </>
+  ),
+  'mind-card': (
+    <>
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="2" />
+    </>
+  ),
   'steadier-focus': (
     <>
       <circle cx="12" cy="12" r="8" />

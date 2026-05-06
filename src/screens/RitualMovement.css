@@ -8,17 +8,8 @@
   text-align: center;
 }
 
-.ritual-movement-spine {
-  margin-top: 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent-sage);
-  opacity: 0.3;
-}
-
 .ritual-movement-instruction {
-  margin: 32px 0 0 0;
+  margin: 48px 0 0 0;
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;

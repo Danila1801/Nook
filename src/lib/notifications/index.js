@@ -76,6 +76,7 @@ const TYPE_TO_PATH = {
   stretch: '/ritual/stretch',
   eye: '/ritual/eye',
   movement: '/ritual/movement',
+  mind: '/ritual/mind',
 };
 
 function ritualPath(ritualType) {

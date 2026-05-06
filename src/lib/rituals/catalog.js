@@ -49,7 +49,7 @@ export const CATEGORIES = [
   {
     key: 'move',
     accent: 'plum',
-    iconKey: 'more-movement',
+    iconKey: 'move-card',
     rituals: [
       { key: 'walkAndWater', durationMin: 5 },
       { key: 'standAndReach', durationMin: 2 },
@@ -65,7 +65,7 @@ export const CATEGORIES = [
   {
     key: 'mind',
     accent: 'slate-blue',
-    iconKey: 'steadier-focus',
+    iconKey: 'mind-card',
     rituals: [
       { key: 'oneBreathReset', durationMin: 1 },
       { key: 'noticeFiveThings', durationMin: 2 },

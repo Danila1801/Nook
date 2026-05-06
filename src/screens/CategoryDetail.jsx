@@ -10,7 +10,7 @@ const CATEGORY_TO_RITUAL_PATH = {
   stretch: '/ritual/stretch',
   eyes: '/ritual/eye',
   move: '/ritual/movement',
-  mind: '/ritual/breath',
+  mind: '/ritual/mind',
 };
 
 export default function CategoryDetail() {

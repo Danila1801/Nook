@@ -1,0 +1,136 @@
+.name {
+  min-height: 100vh;
+  background: var(--canvas);
+  display: flex;
+  flex-direction: column;
+  padding: 48px 24px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 720px) {
+  .name {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+.name-back {
+  align-self: flex-start;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--soft-ink);
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.name-back:hover {
+  color: var(--muted-ink);
+}
+
+.name-step {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--soft-ink);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.name-headline {
+  margin: 8px 0 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+
+.name-headline-line {
+  display: block;
+}
+
+.name-headline-italic {
+  font-style: italic;
+}
+
+.name-body {
+  margin: 12px 0 0 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--soft-ink);
+}
+
+.name-input {
+  margin-top: 32px;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-elevated);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--ink);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.name-input::placeholder {
+  color: var(--soft-ink);
+}
+
+.name-input:focus {
+  outline: none;
+  border-color: var(--accent-sage);
+}
+
+.name-actions {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 32px;
+}
+
+.name-skip {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--soft-ink);
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.name-skip:hover {
+  color: var(--ink);
+}
+
+.name-continue {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: none;
+  background: var(--ink);
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.name-continue:hover {
+  filter: brightness(0.9);
+}

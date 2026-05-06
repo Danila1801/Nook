@@ -21,6 +21,7 @@ const TYPE_TO_RITUAL_PATH = {
   stretch: '/ritual/stretch',
   eye: '/ritual/eye',
   movement: '/ritual/movement',
+  mind: '/ritual/mind',
 };
 
 function formatDateLabel(date) {

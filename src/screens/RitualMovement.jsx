@@ -7,27 +7,6 @@ import { logCompletion } from '../lib/rituals/completions.js';
 import { t } from '../lib/i18n/index.js';
 import './RitualMovement.css';
 
-function SpineMotif() {
-  return (
-    <svg
-      width="40"
-      height="200"
-      viewBox="0 0 40 200"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <circle cx="20" cy="14" r="4" fill="currentColor" stroke="none" />
-      <path d="M 20 22 V 178" />
-      <circle cx="20" cy="186" r="4" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
 export default function RitualMovement() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -121,9 +100,6 @@ export default function RitualMovement() {
     >
       <span className="ritual-movement-step-indicator">
         {t('ritualPlayer.step')} {stepIndex + 1} {t('ritualPlayer.of')} {sequence.steps.length}
-      </span>
-      <span className="ritual-movement-spine">
-        <SpineMotif />
       </span>
       <p className="ritual-movement-instruction">
         {t(`ritualPlayer.instructions.${step.instructionKey}`)}

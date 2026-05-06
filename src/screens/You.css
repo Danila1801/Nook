@@ -51,6 +51,11 @@
   text-align: center;
 }
 
+.you-name-placeholder {
+  font-style: italic;
+  color: var(--muted-ink);
+}
+
 .you-subtitle {
   margin: 4px 0 0 0;
   font-family: var(--font-body);
@@ -163,4 +168,105 @@
   font-size: 13px;
   font-weight: 400;
   color: var(--soft-ink);
+}
+
+.you-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 24, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 100;
+  animation: you-modal-fade 200ms ease;
+}
+
+@keyframes you-modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.you-modal {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface-elevated);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+  box-sizing: border-box;
+}
+
+.you-modal-title {
+  margin: 0 0 16px 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.you-modal-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--canvas);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--ink);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.you-modal-input::placeholder {
+  color: var(--soft-ink);
+}
+
+.you-modal-input:focus {
+  outline: none;
+  border-color: var(--accent-sage);
+}
+
+.you-modal-actions {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.you-modal-cancel {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--soft-ink);
+  background: transparent;
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.you-modal-cancel:hover {
+  color: var(--ink);
+}
+
+.you-modal-save {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  color: #ffffff;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  background: var(--ink);
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.you-modal-save:hover {
+  filter: brightness(0.9);
 }

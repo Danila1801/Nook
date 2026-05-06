@@ -147,7 +147,9 @@ export default function Rhythm() {
         onClick={() => {
           save(STORAGE_KEY, settings);
           scheduleNotificationsForToday();
-          navigate('/today');
+          const prefs = load('prefs', {});
+          const userName = (prefs && prefs.userName) ? String(prefs.userName).trim() : '';
+          navigate(userName ? '/today' : '/name');
         }}
       >
         {t('rhythm.continueCta')}

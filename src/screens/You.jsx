@@ -21,6 +21,7 @@ const PREFS_DEFAULTS = {
   breathSounds: 'bowl',
   darkRitualView: 'auto',
   language: 'en',
+  userName: '',
 };
 const LANGUAGE_CYCLE = ['en', 'ru', 'ro', 'nl'];
 const SOUND_CYCLE = ['bowl', 'none'];
@@ -86,8 +87,12 @@ export default function You() {
   }
 
   const soundLabel = (v) => (v === 'bowl' ? t('you.bowl') : t('you.none'));
-  const darkLabel = (v) =>
-    v === 'auto' ? t('you.auto') : v === 'on' ? t('you.on') : t('you.off');
+  const themeLabel = (v) =>
+    v === 'auto'
+      ? t('you.darkRitualAuto')
+      : v === 'on'
+      ? t('you.darkRitualDark')
+      : t('you.darkRitualLight');
 
   const onboardedAt = load('onboarded.at', null);
   const daysWithNook = onboardedAt
@@ -98,14 +103,36 @@ export default function You() {
       ? t('you.lessThanADay')
       : t(pluralKey('you.days', daysWithNook), { count: daysWithNook });
 
+  const userName = (prefs.userName || '').trim();
+  const displayName = userName || t('you.welcomeBack');
+  const initial = userName ? userName.charAt(0).toLocaleUpperCase() : '';
+
+  const [nameModalOpen, setNameModalOpen] = useState(false);
+  const [nameDraft, setNameDraft] = useState('');
+
+  function openNameModal() {
+    setNameDraft(userName);
+    setNameModalOpen(true);
+  }
+
+  function saveName() {
+    const trimmed = nameDraft.trim();
+    updatePref('userName', trimmed);
+    setNameModalOpen(false);
+  }
+
   return (
     <div className="you screen-mount">
       <main className="you-main">
         <div className="you-profile">
-          <div className="you-avatar">
-            <span className="you-avatar-letter">{t('you.placeholderInitial')}</span>
-          </div>
-          <h1 className="you-name">{t('you.placeholderName')}</h1>
+          {initial && (
+            <div className="you-avatar">
+              <span className="you-avatar-letter">{initial}</span>
+            </div>
+          )}
+          <h1 className={'you-name' + (userName ? '' : ' you-name-placeholder')}>
+            {displayName}
+          </h1>
           <p className="you-subtitle">{subtitle}</p>
         </div>
 
@@ -215,8 +242,8 @@ export default function You() {
                 updatePref('darkRitualView', nextInCycle(DARK_CYCLE, prefs.darkRitualView))
               }
             >
-              <span className="you-row-label">{t('you.darkRitualViewLabel')}</span>
-              <span className="you-row-value">{darkLabel(prefs.darkRitualView)}</span>
+              <span className="you-row-label">{t('you.ritualThemeLabel')}</span>
+              <span className="you-row-value">{themeLabel(prefs.darkRitualView)}</span>
             </button>
             <button
               type="button"
@@ -240,6 +267,21 @@ export default function You() {
             <button
               type="button"
               className="you-row"
+              onClick={openNameModal}
+            >
+              <span className="you-row-label">{t('you.yourNameLabel')}</span>
+              <span className="you-row-right">
+                <span className="you-row-value">
+                  {userName || t('you.yourNamePlaceholder')}
+                </span>
+                <span className="you-row-chevron">
+                  <Icon name="chevron-right" size={16} />
+                </span>
+              </span>
+            </button>
+            <button
+              type="button"
+              className="you-row"
               onClick={() => console.log('about-nook')}
             >
               <span className="you-row-label">{t('you.about')}</span>
@@ -247,15 +289,55 @@ export default function You() {
                 <Icon name="chevron-right" size={16} />
               </span>
             </button>
-            <button type="button" className="you-row" onClick={() => navigate('/')}>
-              <span className="you-row-label">{t('you.signOut')}</span>
-              <span className="you-row-chevron">
-                <Icon name="chevron-right" size={16} />
-              </span>
-            </button>
           </div>
         </section>
       </main>
+
+      {nameModalOpen && (
+        <div
+          className="you-modal-backdrop"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setNameModalOpen(false)}
+        >
+          <div
+            className="you-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="you-modal-title">{t('you.yourNameModalTitle')}</h2>
+            <input
+              type="text"
+              className="you-modal-input"
+              value={nameDraft}
+              onChange={(e) => setNameDraft(e.target.value)}
+              placeholder={t('name.placeholder')}
+              autoFocus
+              maxLength={40}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') saveName();
+                if (e.key === 'Escape') setNameModalOpen(false);
+              }}
+            />
+            <div className="you-modal-actions">
+              <button
+                type="button"
+                className="you-modal-cancel"
+                onClick={() => setNameModalOpen(false)}
+              >
+                {t('you.yourNameModalCancel')}
+              </button>
+              <button
+                type="button"
+                className="you-modal-save"
+                onClick={saveName}
+              >
+                {t('you.yourNameModalSave')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <BottomNav />
     </div>
   );

@@ -1,0 +1,34 @@
+.ritual-mind-prompt {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+  color: var(--ink);
+  text-align: center;
+  max-width: 360px;
+  animation: ritual-mind-fade 300ms ease;
+}
+
+@media (min-width: 720px) {
+  .ritual-mind-prompt {
+    font-size: 48px;
+  }
+}
+
+.ritual-mind-time {
+  margin-top: 56px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--soft-ink);
+  text-align: center;
+}
+
+@keyframes ritual-mind-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
