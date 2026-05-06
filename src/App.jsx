@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { setupServiceWorkerMessages } from './lib/notifications/register.js';
+import { primeAudio } from './lib/audio/index.js';
 import Welcome from './screens/Welcome.jsx';
 import FocusAreas from './screens/FocusAreas.jsx';
 import Rhythm from './screens/Rhythm.jsx';
@@ -23,6 +24,20 @@ export default function App() {
   useEffect(() => {
     setupServiceWorkerMessages(navigate);
   }, [navigate]);
+
+  useEffect(() => {
+    function unlock() {
+      primeAudio();
+      document.removeEventListener('pointerdown', unlock);
+      document.removeEventListener('touchstart', unlock);
+    }
+    document.addEventListener('pointerdown', unlock, { once: true });
+    document.addEventListener('touchstart', unlock, { once: true });
+    return () => {
+      document.removeEventListener('pointerdown', unlock);
+      document.removeEventListener('touchstart', unlock);
+    };
+  }, []);
 
   return (
     <Routes>

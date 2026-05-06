@@ -3,6 +3,8 @@ export const audio = {
 };
 
 let audioCtx = null;
+let unlocked = false;
+let preloadedEl = null;
 
 function getAudioCtx() {
   if (audioCtx) return audioCtx;
@@ -15,6 +17,42 @@ function getAudioCtx() {
     audioCtx = null;
   }
   return audioCtx;
+}
+
+export function primeAudio() {
+  if (unlocked) return;
+  if (typeof window === 'undefined') return;
+  unlocked = true;
+
+  const ctx = getAudioCtx();
+  if (ctx) {
+    if (ctx.state === 'suspended' && typeof ctx.resume === 'function') {
+      ctx.resume().catch(() => {});
+    }
+    try {
+      const buffer = ctx.createBuffer(1, 1, 22050);
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      source.connect(ctx.destination);
+      if (typeof source.start === 'function') {
+        source.start(0);
+      } else if (typeof source.noteOn === 'function') {
+        source.noteOn(0);
+      }
+    } catch {
+      // Silent failure: unlock attempt only.
+    }
+  }
+
+  try {
+    preloadedEl = new Audio(audio.singingBowlSrc);
+    preloadedEl.preload = 'auto';
+    if (typeof preloadedEl.load === 'function') {
+      preloadedEl.load();
+    }
+  } catch {
+    preloadedEl = null;
+  }
 }
 
 function synthSingingBowl(volume) {
@@ -50,8 +88,11 @@ export function playSingingBowl(volume = 0.6) {
   if (typeof window === 'undefined') return;
   const safeVolume = Math.max(0, Math.min(1, volume));
   try {
-    const a = new Audio(audio.singingBowlSrc);
+    const a = preloadedEl ? preloadedEl : new Audio(audio.singingBowlSrc);
     a.volume = safeVolume;
+    if (preloadedEl && typeof a.currentTime === 'number') {
+      try { a.currentTime = 0; } catch { /* ignore */ }
+    }
     const playPromise = a.play();
     if (playPromise && typeof playPromise.then === 'function') {
       playPromise.catch(() => synthSingingBowl(safeVolume));

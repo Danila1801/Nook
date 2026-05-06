@@ -314,6 +314,7 @@ export const en = {
       stretch: "You moved a little. Your back thanks you.",
       eye: "Your eyes had a moment of rest.",
       movement: "You stood up. That's everything.",
+      mind: "Your mind had a moment of quiet.",
     },
     cta: "Back to today",
   },
@@ -372,8 +373,8 @@ export const en = {
     typeNames: {
       breath: "Breath",
       stretch: "Stretch",
-      eyes: "Eye rest",
-      move: "Movement",
+      eye: "Eye rest",
+      movement: "Movement",
       mind: "Mindful",
     },
   },
