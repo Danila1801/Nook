@@ -4,8 +4,9 @@
   user-select: none;
   -webkit-user-select: none;
   pointer-events: none;
-  mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
+  mask-image: radial-gradient(ellipse at center, black 45%, transparent 88%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 45%, transparent 88%);
+  filter: drop-shadow(0 0 32px rgba(196, 107, 74, 0.12));
 }
 
 .figure-fallback {
