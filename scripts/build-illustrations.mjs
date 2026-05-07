@@ -6,7 +6,7 @@ const SRC_DIR = 'raw-illustrations';
 const OUT_DIR = 'public/illustrations';
 const MAX_WIDTH = 900;
 const QUALITY = 88;
-const PAD = 40;
+const PAD = 100;
 const PAPER = { r: 244, g: 238, b: 227 };
 
 if (!fs.existsSync(SRC_DIR)) {
