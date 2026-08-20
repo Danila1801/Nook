@@ -1,0 +1,30 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "riverbend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "C:/Users/danil/projects/kaolin-demo-clinic",
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "kaolin",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "C:/Users/danil/projects/kaolin",
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3001"
+      ],
+      "port": 3001
+    }
+  ]
+}

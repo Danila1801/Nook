@@ -19,6 +19,7 @@
 }
 
 .ritual-mind-time {
+  font-variant-numeric: tabular-nums;
   margin-top: 56px;
   font-family: var(--font-mono);
   font-weight: 400;

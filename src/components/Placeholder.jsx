@@ -5,12 +5,12 @@ export default function Placeholder({ name, showNav = false }) {
     <>
       <main
         style={{
-          minHeight: '100vh',
+          minHeight: '100dvh',
           background: 'var(--canvas)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: showNav ? '24px 24px 96px' : '24px',
+          padding: showNav ? '24px 24px var(--scroll-bottom)' : '24px',
           boxSizing: 'border-box',
         }}
       >

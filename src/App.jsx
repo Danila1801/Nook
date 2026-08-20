@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { setupServiceWorkerMessages } from './lib/notifications/register.js';
 import { primeAudio } from './lib/audio/index.js';
+import { primeVoice } from './lib/voice/index.js';
 import Welcome from './screens/Welcome.jsx';
 import FocusAreas from './screens/FocusAreas.jsx';
 import Rhythm from './screens/Rhythm.jsx';
@@ -26,8 +27,11 @@ export default function App() {
   }, [navigate]);
 
   useEffect(() => {
+    // iOS refuses to start an AudioContext or enumerate speech voices until it
+    // has seen a real user gesture, so both must be primed from this handler.
     function unlock() {
       primeAudio();
+      primeVoice();
       document.removeEventListener('pointerdown', unlock);
       document.removeEventListener('touchstart', unlock);
     }

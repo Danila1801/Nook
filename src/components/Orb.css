@@ -1,0 +1,238 @@
+/* Orb — living presence. All motion below animates transform/opacity only
+   (compositor-thread, no layout/paint thrash). See Orb.variants.md. */
+
+.orb {
+  --orb-canvas: var(--c-paper-100);
+  --orb-ink-deep: var(--c-ink-900);
+  --orb-sage: var(--c-sage);
+  --orb-sage-soft: var(--c-sage-soft);
+  --orb-amber: var(--c-amber);
+  --orb-terracotta: var(--c-terracotta);
+  /* A --orb-sage-deep (#4C5744) edge stop used to live here. Removed rather
+     than kept dead: a light-to-dark value ramp reads as sphere-shading even
+     when the gradient is centred, which is exactly the "glossy ball" cue this
+     component exists to avoid. Rationale in Orb.variants.md. */
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--orb-size);
+  height: var(--orb-size);
+  flex: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.orb--light {
+  /* Turned up again in this pass (0.22 -> 0.3 -> 0.36): the halo is still a
+     broad, centered, low-contrast lift — never a hotspot — but light mode
+     was reading too faint overall ("a stain, not a presence"), and this is
+     the one layer that can carry more density without adding any object
+     cues, since it has no edge and no internal shape. */
+  --orb-halo-base: 0.36;
+}
+
+.orb--dark {
+  --orb-halo-base: 0.5;
+}
+
+/* ---------- Halo: the room's only light source in dark mode ---------- */
+
+.orb-halo {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: calc(var(--orb-size) * 1.7);
+  height: calc(var(--orb-size) * 1.7);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(calc(var(--orb-size) * 0.16));
+  opacity: var(--orb-halo-base);
+  animation: orb-halo-breathe 9s ease-in-out infinite;
+}
+
+.orb--light .orb-halo {
+  background: radial-gradient(circle, var(--orb-sage-soft) 0%, var(--orb-canvas) 62%, transparent 80%);
+}
+
+/* Rebalanced: the amber stop was pulling the whole room toward sunset on a
+   brand that's meant to read cool/sage. Amber is pushed outward (45% -> 56%)
+   and diluted 28% toward sage-soft at that stop, so sage now carries the
+   inner two-thirds of the glow and amber only warms the outer edge. */
+.orb--dark .orb-halo {
+  background: radial-gradient(
+    circle,
+    var(--orb-sage-soft) 0%,
+    color-mix(in srgb, var(--orb-amber) 72%, var(--orb-sage-soft) 28%) 56%,
+    transparent 78%
+  );
+}
+
+@keyframes orb-halo-breathe {
+  0%, 100% { transform: scale(0.94); opacity: calc(var(--orb-halo-base) * (0.75 + 0.25 * var(--orb-intensity))); }
+  50% { transform: scale(1.05); opacity: calc(var(--orb-halo-base) * (1 + 0.35 * var(--orb-intensity))); }
+}
+
+/* ---------- SVG root: overflow visible so rings/rim can bleed out ---------- */
+
+.orb-svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  overflow: visible;
+}
+
+/* ---------- Concentric breathing rings ---------- */
+
+.orb-ring {
+  transform-origin: 100px 100px;
+}
+
+.orb-ring--ambient {
+  opacity: 0;
+  animation: orb-ring-pulse 6.4s ease-out infinite;
+}
+
+.orb-ring-1.orb-ring--ambient { animation-delay: 0s; }
+.orb-ring-2.orb-ring--ambient { animation-delay: -2.13s; }
+.orb-ring-3.orb-ring--ambient { animation-delay: -4.26s; }
+
+.orb-ring--controlled {
+  transition: transform 0.15s linear, opacity 0.15s linear;
+}
+
+@keyframes orb-ring-pulse {
+  0% { transform: scale(1); opacity: 0; }
+  30% { opacity: calc(0.16 + 0.16 * var(--orb-intensity)); }
+  100% { transform: scale(calc(1.14 + 0.12 * var(--orb-intensity))); opacity: 0; }
+}
+
+/* ---------- Body: baked feTurbulence edge wobble, animated as a whole ---------- */
+
+.orb-body-wrap {
+  transform-origin: 100px 100px;
+  animation: orb-body-breathe 12s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes orb-body-breathe {
+  0%, 100% { transform: rotate(-1.1deg) scale(0.994); }
+  50% { transform: rotate(1.3deg) scale(calc(1 + 0.012 * var(--orb-intensity) + 0.006)); }
+}
+
+/* ---------- Interior parallax light (interiority) ---------- */
+
+.orb-blob {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Light mode: blend the blobs into the (now much flatter) body instead of
+   stacking them on top of it — reads as colour diffusing under a surface
+   rather than painted highlights on a sphere. Dark mode leaves blobs at
+   normal alpha compositing; against near-black they already read as glow. */
+.orb-interior--soft .orb-blob {
+  mix-blend-mode: soft-light;
+}
+
+.orb-blob-1 {
+  animation: orb-drift-1 9.5s ease-in-out infinite;
+}
+
+.orb-blob-2 {
+  animation: orb-drift-2 13s ease-in-out infinite;
+}
+
+.orb-blob-3 {
+  animation: orb-drift-3 16.5s ease-in-out infinite;
+}
+
+@keyframes orb-drift-1 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); opacity: calc(0.55 + 0.25 * var(--orb-intensity)); }
+  50% { transform: translate(calc(6px + 6px * var(--orb-intensity)), calc(-5px - 4px * var(--orb-intensity))) scale(1.07); opacity: calc(0.75 + 0.25 * var(--orb-intensity)); }
+}
+
+@keyframes orb-drift-2 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); opacity: calc(0.45 + 0.2 * var(--orb-intensity)); }
+  50% { transform: translate(calc(-7px - 5px * var(--orb-intensity)), calc(6px + 3px * var(--orb-intensity))) scale(1.1); opacity: calc(0.68 + 0.22 * var(--orb-intensity)); }
+}
+
+@keyframes orb-drift-3 {
+  0%, 100% { transform: translate(0px, 0px) scale(0.98); opacity: calc(0.3 + 0.15 * var(--orb-intensity)); }
+  50% { transform: translate(calc(4px + 3px * var(--orb-intensity)), calc(7px + 4px * var(--orb-intensity))) scale(1.05); opacity: calc(0.5 + 0.2 * var(--orb-intensity)); }
+}
+
+/* ---------- Grain: baked once, only opacity shimmers ---------- */
+
+.orb-grain {
+  mix-blend-mode: overlay;
+  opacity: 0.05;
+  animation: orb-grain-shimmer 5.2s ease-in-out infinite;
+}
+
+@keyframes orb-grain-shimmer {
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.065; }
+}
+
+/* ---------- Rim light: a specular arc that slowly travels the edge ---------- */
+
+.orb-rim-spin {
+  transform-origin: 100px 100px;
+  /* Slowed from 46s: combined with the wider, blurrier stroke this reads as
+     a slow ambient drift rather than a highlight sweeping across a surface. */
+  animation: orb-rim-rotate 58s linear infinite;
+  will-change: transform;
+  /* Additive, not painted on top — light adding into the glow instead of a
+     translucent shape laid over it. */
+  mix-blend-mode: screen;
+  opacity: 0.8;
+}
+
+@keyframes orb-rim-rotate {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Pause: paused prop or document.hidden ---------- */
+
+.orb--paused .orb-halo,
+.orb--paused .orb-ring--ambient,
+.orb--paused .orb-body-wrap,
+.orb--paused .orb-blob-1,
+.orb--paused .orb-blob-2,
+.orb--paused .orb-blob-3,
+.orb--paused .orb-grain,
+.orb--paused .orb-rim-spin {
+  animation-play-state: paused;
+}
+
+/* ---------- Reduced motion: a deliberately-composed still frame ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-halo,
+  .orb-ring--ambient,
+  .orb-body-wrap,
+  .orb-blob-1,
+  .orb-blob-2,
+  .orb-blob-3,
+  .orb-grain,
+  .orb-rim-spin {
+    animation: none;
+  }
+
+  .orb-halo { opacity: var(--orb-halo-base); transform: scale(1); }
+  .orb-body-wrap { transform: rotate(0.4deg) scale(1); }
+  .orb-blob-1 { transform: translate(2px, -2px) scale(1.04); opacity: 0.72; }
+  .orb-blob-2 { transform: translate(-3px, 3px) scale(1); opacity: 0.58; }
+  .orb-blob-3 { transform: translate(0px, 2px) scale(0.98); opacity: 0.42; }
+  .orb-grain { opacity: 0.05; }
+  .orb-rim-spin { transform: rotate(-30deg); }
+  .orb-ring--ambient { opacity: 0.1; transform: scale(1.1); }
+
+  .orb-ring--controlled {
+    transition: opacity 0.2s linear;
+  }
+}

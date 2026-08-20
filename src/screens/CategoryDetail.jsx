@@ -66,7 +66,12 @@ export default function CategoryDetail() {
                 }
               >
                 <span className="category-detail-ritual-icon">
-                  <Icon name={category.iconKey} size={16} color={accentColor} />
+                  {/* Per-ritual glyph, not the category's. This previously
+                      rendered category.iconKey for every row, so all 14
+                      stretch rituals showed one identical stick figure.
+                      Icon falls back to the category glyph if a ritual key
+                      has no dedicated design yet. */}
+                  <Icon name={`ritual:${ritual.key}`} size={18} color={accentColor} />
                 </span>
                 <span className="category-detail-ritual-body">
                   <span className="category-detail-ritual-name">

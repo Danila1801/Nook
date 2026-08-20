@@ -5,12 +5,31 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- viewport-fit=cover is what makes env(safe-area-inset-*) resolve to
+         real values instead of 0. Zoom is deliberately NOT disabled. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Nook" />
-    <meta name="theme-color" content="#F4EEE3" />
     <meta name="description" content="A quiet companion for the working body." />
+
+    <!-- Match the OS chrome to the theme rather than hardcoding the light value -->
+    <meta name="theme-color" content="#F4EEE3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#16150F" media="(prefers-color-scheme: dark)" />
+
+    <!-- Fonts load from the document head, not via @import inside tokens.css.
+         An @import in CSS can't start until the stylesheet itself has parsed,
+         which serialises two round trips before any text can paint. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
     <title>Nook</title>
   </head>
   <body>

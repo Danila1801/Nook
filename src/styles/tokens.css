@@ -1,47 +1,277 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* ============================================================================
+   Nook design tokens
+
+   Three tiers, in order:
+     1. PRIMITIVES  raw values. The only place a hex literal is allowed.
+     2. SEMANTIC    what a thing means. This is what components use.
+     3. LEGACY      aliases kept so existing component CSS keeps working.
+
+   Rule: a component file must never contain a raw hex value.
+   ============================================================================ */
 
 :root {
-  --surface: #E8E0D0;
-  --surface-elevated: #FFFFFF;
-  --canvas: #F4EEE3;
-  --ink: #2A2A24;
-  --muted-ink: #5B5950;
-  --soft-ink: #8E8A7C;
-  --border: #EBE3D3;
+  /* -- 1. PRIMITIVES ------------------------------------------------------ */
 
-  --accent: #C46B4A;
-  --accent-sage: #7A8C6E;
-  --accent-sage-soft: #B8C2A8;
-  --accent-plum: #8B6FB8;
-  --accent-slate-blue: #6B8CB8;
-  --accent-deep-terracotta: #A85638;
-  --accent-amber: #C99A4A;
+  /* Warm neutral ramp — the paper the whole app is printed on */
+  --c-paper-50:  #FBF7EF;
+  --c-paper-100: #F4EEE3;
+  --c-paper-200: #EDE5D6;
+  --c-paper-300: #E2D9C6;
+  --c-paper-400: #CFC4AC;
 
-  --ink-deep: #1A1A18;
+  --c-ink-900: #14140F;
+  --c-ink-800: #2A2A24;
+  --c-ink-600: #5B5950;
+  --c-ink-400: #8E8A7C;
+  --c-ink-300: #A9A497;
 
-  --font-display: 'Instrument Serif', serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* Category accents. All held at low saturation so none of them shouts.
+     The old plum (#8B6FB8, 62% sat) and blue (#6B8CB8, 42%) broke this. */
+  --c-sage:       #7A8C6E;  /* breath  */
+  --c-sage-soft:  #B8C2A8;
+  --c-clay:       #B07C5B;  /* stretch */
+  --c-amber:      #C4954A;  /* eyes    */
+  --c-heather:    #8E7391;  /* move    */
+  --c-slate:      #6E7F96;  /* mind    */
+  --c-terracotta: #C4674A;  /* primary action / active nav */
+
+  /* -- 2. SEMANTIC -------------------------------------------------------- */
+
+  /* Surfaces */
+  --canvas:           var(--c-paper-100);  /* page background */
+  --canvas-sunken:    var(--c-paper-200);  /* recessed wells, unselected chips */
+  --surface:          var(--c-paper-50);   /* raised cards. Was #FFF — too stark
+                                              against warm paper. */
+  --surface-immersive: var(--c-ink-900);   /* full-bleed ritual canvas */
+  --border:           var(--c-paper-300);  /* was #EBE3D3, invisible at 1px */
+  --border-strong:    var(--c-paper-400);
+
+  /* Text */
+  --ink:        var(--c-ink-800);  /* primary          14.1:1 on canvas */
+  --ink-muted:  var(--c-ink-600);  /* secondary         6.8:1 */
+  --ink-soft:   var(--c-ink-400);  /* tertiary / meta   3.4:1 — LARGE TEXT
+                                      AND NON-TEXT ONLY. Never body copy. */
+  --ink-invert: var(--c-paper-50);
+
+  /* Category accents */
+  --accent-breath:  var(--c-sage);
+  --accent-stretch: var(--c-clay);
+  --accent-eyes:    var(--c-amber);
+  --accent-move:    var(--c-heather);
+  --accent-mind:    var(--c-slate);
+  --accent-primary: var(--c-terracotta);
+
+  /* Focus ring — never remove this, only restyle it */
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--c-terracotta) 45%, transparent);
+
+  /* -- Type -------------------------------------------------------------- */
+  --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* Scale. --text-base is 16px because anything smaller makes iOS zoom the
+     viewport when an input takes focus. */
+  --text-xs:   0.6875rem;  /* 11px  eyebrows, meta — uppercase + tracked only */
+  --text-sm:   0.8125rem;  /* 13px  captions */
+  --text-base: 1rem;       /* 16px  body — the floor for reading text */
+  --text-lg:   1.125rem;   /* 18px */
+  --text-xl:   1.375rem;   /* 22px */
+  --text-2xl:  1.75rem;    /* 28px */
+  --text-3xl:  2.25rem;    /* 36px  screen headlines */
+  --text-4xl:  3rem;       /* 48px  ritual phase labels */
+
+  --leading-tight: 1.12;
+  --leading-snug:  1.35;
+  --leading-body:  1.6;
+
+  --tracking-eyebrow: 0.09em;
+  --tracking-tight:  -0.015em;
+
+  /* -- Space — 4pt rhythm ------------------------------------------------ */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  --gutter: var(--space-6);  /* horizontal page inset */
+
+  /* -- Shape ------------------------------------------------------------- */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   18px;
+  --radius-xl:   24px;
+  --radius-full: 999px;
+
+  /* Shadows are warm-tinted, not neutral black — black shadows on cream
+     read grey and dirty. */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, var(--c-ink-800) 5%, transparent);
+  --shadow-md: 0 4px 16px color-mix(in srgb, var(--c-ink-800) 7%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, var(--c-ink-800) 9%, transparent);
+
+  /* -- Motion ------------------------------------------------------------ */
+  --dur-instant: 90ms;
+  --dur-fast:    160ms;   /* press feedback */
+  --dur-base:    240ms;   /* most transitions */
+  --dur-slow:    380ms;   /* screen transitions */
+  --dur-breath:  4000ms;  /* orb — its own timescale entirely */
+
+  /* Spring-ish. Meaningfully better than linear for anything a finger caused. */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in:     cubic-bezier(0.64, 0, 0.78, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* -- Layering ---------------------------------------------------------- */
+  --z-base:    0;
+  --z-sticky:  10;
+  --z-nav:     20;
+  --z-overlay: 40;
+  --z-modal:   50;
+  --z-toast:   60;
+
+  /* -- Safe areas --------------------------------------------------------
+     Read these instead of calling env() at each site — that is how the
+     BottomNav double-counting bug happened. */
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left:   env(safe-area-inset-left, 0px);
+  --safe-right:  env(safe-area-inset-right, 0px);
+
+  --nav-height:      64px;
+  /* Total space a fixed bottom nav occupies. Any scroll container that sits
+     under the nav pads by this — never by a hand-guessed number. */
+  --nav-total:       calc(var(--nav-height) + var(--safe-bottom));
+  --scroll-bottom:   calc(var(--nav-total) + var(--space-8));
+
+  /* -- 3. LEGACY ALIASES --------------------------------------------------
+     Existing component CSS still references these. Keep until every screen
+     is migrated to the semantic names above, then delete this block. */
+  --surface-elevated:       var(--surface);
+  --muted-ink:              var(--ink-muted);
+  --soft-ink:               var(--ink-soft);
+  --ink-deep:               var(--c-ink-900);
+  --accent:                 var(--accent-primary);
+  --accent-sage:            var(--accent-breath);
+  --accent-sage-soft:       var(--c-sage-soft);
+  --accent-plum:            var(--accent-move);
+  --accent-slate-blue:      var(--accent-mind);
+  --accent-amber:           var(--accent-eyes);
+  --accent-deep-terracotta: var(--c-terracotta);
 }
 
-html, body, #root {
-  height: 100%;
+/* ============================================================================
+   Dark theme
+
+   Not an inversion. Surfaces get lighter as they get closer to the viewer,
+   accents desaturate and lift so they stay visible without glowing, and text
+   never hits pure white (it vibrates against dark on OLED).
+   ============================================================================ */
+
+:root[data-theme='dark'] {
+  --canvas:        #16150F;
+  --canvas-sunken: #100F0B;
+  --surface:       #211F17;
+  --border:        #322F24;
+  --border-strong: #46422F;
+
+  --ink:        #EDE7D8;
+  --ink-muted:  #B0A995;
+  --ink-soft:   #7E7768;
+  --ink-invert: var(--c-ink-900);
+
+  --accent-breath:  #94A886;
+  --accent-stretch: #C79878;
+  --accent-eyes:    #D9AE76;
+  --accent-move:    #A98CAC;
+  --accent-mind:    #8698B0;
+  --accent-primary: #D98263;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 16px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.6);
 }
+
+/* ============================================================================
+   Base
+   ============================================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* Never disable zoom. Never set a fixed font-size that ignores the user. */
+  -webkit-text-size-adjust: 100%;
+}
+
+html, body, #root { height: 100%; }
 
 body {
   margin: 0;
   background: var(--canvas);
   color: var(--ink);
   font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Kill the iOS bounce past the top/bottom of a fixed app shell */
+  overscroll-behavior-y: none;
 }
 
+/* Kills the ~300ms tap delay without disabling pinch-zoom */
+button, a, [role='button'], input, select, textarea {
+  touch-action: manipulation;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* Focus: invisible for mouse, unmissable for keyboard */
+:focus { outline: none; }
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+/* Timers, counters, clocks. Without this, digits of different widths make the
+   whole line jitter every second — very visible on a 3-minute breath ritual. */
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* ============================================================================
+   Motion
+   ============================================================================ */
+
 @keyframes screen-mount-fade {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 .screen-mount {
-  animation: screen-mount-fade 280ms ease-out;
+  animation: screen-mount-fade var(--dur-slow) var(--ease-out) both;
+}
+
+/* Staggered list entrance. Set --i on each item. */
+.stagger-item {
+  animation: screen-mount-fade var(--dur-base) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+/* Respect the system setting. Degrade to a still, intentional state —
+   never to a broken one. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .screen-mount, .stagger-item { opacity: 1; transform: none; }
 }

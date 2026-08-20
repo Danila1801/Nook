@@ -347,6 +347,7 @@ export const ru = {
     observationsLabel: "Мягкие наблюдения",
     emptyStateHeading: "Пока ничего.",
     emptyStateBody: "Сделай паузу, и мы заметим её здесь.",
+    emptyStateBrowse: "Найти ритуал",
     emptyStateCta: "Добавить пример",
     weekdayLabels: { mon: "Пн", tue: "Вт", wed: "Ср", thu: "Чт", fri: "Пт", sat: "Сб", sun: "Вс" },
     obs: {
@@ -397,6 +398,9 @@ export const ru = {
     notificationsUnsupported: "Не поддерживаются",
     notificationsBlockedAlert: "Уведомления заблокированы в настройках браузера. Включи их там.",
     trySample: "Попробовать",
+    guidedVoiceLabel: "Голос-проводник",
+    guidedVoiceAuto: "Авто",
+    guidedVoiceDeviceCaption: "Пока используется системный голос",
     breathSoundsLabel: "Звуки дыхания",
     ritualThemeLabel: "Тема ритуала",
     darkRitualAuto: "Авто",

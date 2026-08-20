@@ -1,11 +1,14 @@
 .progress {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--canvas);
   box-sizing: border-box;
 }
 
 .progress-main {
-  padding: 32px 24px 96px;
+  padding: calc(var(--space-8) + var(--safe-top))
+           calc(var(--gutter) + var(--safe-right))
+           var(--scroll-bottom)
+           calc(var(--gutter) + var(--safe-left));
   box-sizing: border-box;
 }
 
@@ -215,4 +218,29 @@
 .progress-seed-button:hover {
   color: var(--ink);
   border-color: var(--soft-ink);
+}
+
+/* Primary way out of the empty state. The seed button below it is dev-only. */
+.progress-empty-cta {
+  margin-top: var(--space-6);
+  min-height: 48px;
+  padding: 0 var(--space-6);
+  background: var(--ink);
+  color: var(--ink-invert);
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--text-base);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.progress-empty-cta:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-empty-cta { transition: none; }
+  .progress-empty-cta:active { transform: none; }
 }

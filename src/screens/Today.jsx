@@ -9,13 +9,6 @@ import Icon from '../components/Icon.jsx';
 import BottomNav from '../components/BottomNav.jsx';
 import './Today.css';
 
-const TYPE_TO_ICON = {
-  breath: 'calmer-breathing',
-  stretch: 'neck-shoulders',
-  eye: 'tired-eyes',
-  movement: 'more-movement',
-};
-
 const TYPE_TO_RITUAL_PATH = {
   breath: '/ritual/breath',
   stretch: '/ritual/stretch',
@@ -54,33 +47,48 @@ function isBeforeWork(now, startTimeHHMM) {
 
 export default function Today() {
   const navigate = useNavigate();
-  const [now, setNow] = useState(() => new Date());
-  const [pauses, setPauses] = useState([]);
-  const [settings, setSettings] = useState(null);
-  const [ready, setReady] = useState(false);
+
+  // Built once, during the initial render. Doing this in an effect instead
+  // meant four setState calls on mount, so the app's home screen rendered
+  // twice every single time it was opened.
+  const [day, setDay] = useState(() => {
+    const settings = load('rhythm.settings', null);
+    const focusAreas = load('focus.selected', null);
+    if (!settings || !focusAreas) {
+      return { ready: false, settings: null, focusAreas: null, now: new Date(), pauses: [] };
+    }
+    const now = new Date();
+    return {
+      ready: true,
+      settings,
+      focusAreas,
+      now,
+      pauses: buildPausesForToday(settings, focusAreas, now),
+    };
+  });
+
+  const { ready, settings, now, pauses } = day;
 
   useEffect(() => {
-    const loadedSettings = load('rhythm.settings', null);
-    const focusAreas = load('focus.selected', null);
-    if (!loadedSettings || !focusAreas) {
-      navigate('/');
+    if (!ready) {
+      navigate('/', { replace: true });
       return;
     }
-    const initialNow = new Date();
-    setNow(initialNow);
-    setSettings(loadedSettings);
-    setPauses(buildPausesForToday(loadedSettings, focusAreas, initialNow));
-    setReady(true);
     scheduleNotificationsForToday();
 
+    // setState inside a timer callback is asynchronous, so it doesn't
+    // cascade the way a synchronous call in the effect body does.
     const interval = setInterval(() => {
       const tick = new Date();
-      setNow(tick);
-      setPauses(buildPausesForToday(loadedSettings, focusAreas, tick));
+      setDay((d) => ({
+        ...d,
+        now: tick,
+        pauses: buildPausesForToday(d.settings, d.focusAreas, tick),
+      }));
     }, 60000);
 
     return () => clearInterval(interval);
-  }, [navigate]);
+  }, [ready, navigate]);
 
   if (!ready) return null;
 
@@ -191,9 +199,12 @@ export default function Today() {
                       <Icon name="check" size={18} color="var(--soft-ink)" />
                     ) : (
                       <Icon
-                        name={TYPE_TO_ICON[p.ritualType]}
+                        /* Per-ritual glyph rather than one icon for the whole
+                           type. Icon falls back to the category glyph for any
+                           ritual key without a dedicated design. */
+                        name={`ritual:${p.ritualKey}`}
                         size={18}
-                        color={p.status === 'next' ? '#ffffff' : 'var(--soft-ink)'}
+                        color={p.status === 'next' ? 'var(--ink-invert)' : 'var(--ink-soft)'}
                       />
                     )}
                   </span>

@@ -347,6 +347,7 @@ export const en = {
     observationsLabel: "Gentle observations",
     emptyStateHeading: "Nothing yet.",
     emptyStateBody: "Take a pause, and we'll notice it here.",
+    emptyStateBrowse: "Find a ritual",
     emptyStateCta: "Add sample data",
     weekdayLabels: { mon: "M", tue: "T", wed: "W", thu: "T", fri: "F", sat: "S", sun: "S" },
     obs: {
@@ -397,6 +398,9 @@ export const en = {
     notificationsUnsupported: "Not supported",
     notificationsBlockedAlert: "Notifications are blocked in your browser settings. Please enable them there.",
     trySample: "Try a sample",
+    guidedVoiceLabel: "Guided voice",
+    guidedVoiceAuto: "Auto",
+    guidedVoiceDeviceCaption: "Using your device's voice until studio audio is added",
     breathSoundsLabel: "Breath sounds",
     ritualThemeLabel: "Ritual theme",
     darkRitualAuto: "Auto",

@@ -1,11 +1,14 @@
 .category-detail {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--canvas);
   box-sizing: border-box;
 }
 
 .category-detail-main {
-  padding: 32px 24px 96px;
+  padding: calc(var(--space-8) + var(--safe-top))
+           calc(var(--gutter) + var(--safe-right))
+           var(--scroll-bottom)
+           calc(var(--gutter) + var(--safe-left));
   display: flex;
   flex-direction: column;
   box-sizing: border-box;

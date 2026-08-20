@@ -4,6 +4,8 @@ import BottomNav from '../components/BottomNav.jsx';
 import Icon from '../components/Icon.jsx';
 import { load, save } from '../lib/storage/index.js';
 import { t, pluralKey, setLocale } from '../lib/i18n/index.js';
+import { setVoiceMode, isVoiceActive } from '../lib/voice/index.js';
+import { setMuted } from '../lib/audio/index.js';
 import {
   isNotificationSupported,
   getPermissionState,
@@ -20,12 +22,14 @@ const RHYTHM_DEFAULTS = { startTime: '09:00', endTime: '18:00', frequencyMinutes
 const PREFS_DEFAULTS = {
   breathSounds: 'bowl',
   darkRitualView: 'auto',
+  guidedVoice: 'auto',
   language: 'en',
   userName: '',
 };
 const LANGUAGE_CYCLE = ['en', 'ru'];
 const SOUND_CYCLE = ['bowl', 'none'];
 const DARK_CYCLE = ['auto', 'on', 'off'];
+const VOICE_CYCLE = ['auto', 'on', 'off'];
 
 function nextInCycle(cycle, current) {
   const i = cycle.indexOf(current);
@@ -36,22 +40,35 @@ export default function You() {
   const navigate = useNavigate();
   const rhythm = load('rhythm.settings', RHYTHM_DEFAULTS);
   const focusSelected = load('focus.selected', []);
-  const [prefs, setPrefs] = useState(() => ({ ...PREFS_DEFAULTS, ...load('prefs', {}) }));
+  const [prefs, setPrefs] = useState(() => {
+    const stored = { ...PREFS_DEFAULTS, ...load('prefs', {}) };
+    // A stored locale we no longer offer falls back to English. Normalising in
+    // the initialiser rather than in an effect avoids a cascading second
+    // render on every mount of this screen.
+    return LANGUAGE_CYCLE.includes(stored.language)
+      ? stored
+      : { ...stored, language: 'en' };
+  });
 
+  // The initialiser corrected state; this syncs that correction outward to
+  // storage and the i18n singleton. Effects are for external systems, so
+  // there is deliberately no setState here.
   useEffect(() => {
-    if (!LANGUAGE_CYCLE.includes(prefs.language)) {
-      const next = { ...prefs, language: 'en' };
-      setPrefs(next);
-      save('prefs', next);
+    const stored = load('prefs', {});
+    if (stored.language && !LANGUAGE_CYCLE.includes(stored.language)) {
+      save('prefs', { ...stored, language: 'en' });
       setLocale('en');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updatePref = (key, value) => {
     const next = { ...prefs, [key]: value };
     setPrefs(next);
     save('prefs', next);
+    // Push straight through to the audio/voice singletons so the change is
+    // audible on the very next ritual without a reload.
+    if (key === 'guidedVoice') setVoiceMode(value);
+    if (key === 'breathSounds') setMuted(value === 'none');
   };
 
   const [notifState, setNotifState] = useState(() => ({
@@ -97,6 +114,8 @@ export default function You() {
   }
 
   const soundLabel = (v) => (v === 'bowl' ? t('you.bowl') : t('you.none'));
+  const voiceLabel = (v) =>
+    v === 'auto' ? t('you.guidedVoiceAuto') : v === 'on' ? t('you.on') : t('you.off');
   const themeLabel = (v) =>
     v === 'auto'
       ? t('you.darkRitualAuto')
@@ -104,10 +123,13 @@ export default function You() {
       ? t('you.darkRitualDark')
       : t('you.darkRitualLight');
 
-  const onboardedAt = load('onboarded.at', null);
-  const daysWithNook = onboardedAt
-    ? Math.floor((Date.now() - new Date(onboardedAt).getTime()) / 86400000)
-    : 0;
+  // Read the clock once at mount, not on every render. Calling Date.now()
+  // during render makes the output depend on when React happens to re-render.
+  const [daysWithNook] = useState(() => {
+    const onboardedAt = load('onboarded.at', null);
+    if (!onboardedAt) return 0;
+    return Math.floor((Date.now() - new Date(onboardedAt).getTime()) / 86400000);
+  });
   const subtitle =
     daysWithNook === 0
       ? t('you.lessThanADay')
@@ -236,6 +258,21 @@ export default function You() {
               <span className="you-row-label you-row-label-ghost">
                 {t('you.trySample')}
               </span>
+            </button>
+            <button
+              type="button"
+              className="you-row"
+              onClick={() => updatePref('guidedVoice', nextInCycle(VOICE_CYCLE, prefs.guidedVoice))}
+            >
+              <span className="you-row-label-stack">
+                <span className="you-row-label">{t('you.guidedVoiceLabel')}</span>
+                {/* Say plainly when the fallback device voice is what will be
+                    heard, rather than implying studio quality we don't have. */}
+                {prefs.guidedVoice === 'on' && !isVoiceActive() && (
+                  <span className="you-row-caption">{t('you.guidedVoiceDeviceCaption')}</span>
+                )}
+              </span>
+              <span className="you-row-value">{voiceLabel(prefs.guidedVoice)}</span>
             </button>
             <button
               type="button"

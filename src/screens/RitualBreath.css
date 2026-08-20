@@ -63,6 +63,7 @@
 }
 
 .ritual-breath-phase-seconds {
+  font-variant-numeric: tabular-nums;
   margin-top: 18px;
   font-family: var(--font-display);
   font-style: italic;
@@ -74,6 +75,7 @@
 }
 
 .ritual-breath-time {
+  font-variant-numeric: tabular-nums;
   margin-top: 12px;
   font-family: var(--font-mono);
   font-weight: 400;

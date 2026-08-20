@@ -28,6 +28,7 @@
 }
 
 .ritual-movement-countdown {
+  font-variant-numeric: tabular-nums;
   margin-top: 20px;
   font-family: var(--font-display);
   font-style: italic;

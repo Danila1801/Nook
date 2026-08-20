@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav.jsx';
 import {
   getCompletions,
@@ -101,6 +102,7 @@ function generateObservations(weekCompletions) {
 }
 
 export default function Progress() {
+  const navigate = useNavigate();
   const [version, setVersion] = useState(0);
 
   const all = useMemo(() => getCompletions(), [version]);
@@ -122,9 +124,22 @@ export default function Progress() {
           <div className="progress-empty">
             <h1 className="progress-empty-heading">{t('progress.emptyStateHeading')}</h1>
             <p className="progress-empty-body">{t('progress.emptyStateBody')}</p>
-            <button type="button" className="progress-seed-button" onClick={handleSeed}>
-              {t('progress.emptyStateCta')}
+            {/* An empty state needs a way out, not a dead end. */}
+            <button
+              type="button"
+              className="progress-empty-cta"
+              onClick={() => navigate('/library')}
+            >
+              {t('progress.emptyStateBrowse')}
             </button>
+            {/* Dev-only. This shipped to production before — it is a debug
+                affordance, not a feature. import.meta.env.DEV is statically
+                replaced at build time so the branch is tree-shaken out. */}
+            {import.meta.env.DEV && (
+              <button type="button" className="progress-seed-button" onClick={handleSeed}>
+                {t('progress.emptyStateCta')}
+              </button>
+            )}
           </div>
         </main>
         <BottomNav />
